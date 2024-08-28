@@ -8,6 +8,27 @@ package com.mycompany.sistemahospitaloo;
  *
  * @author davil
  */
-public class Paciente {
+public class Paciente extends Usuario {
+    private String numeroCartaoSUS;
+
+    public Paciente(String numeroCartaoSUS) {
+        super(); //precisa disso ja que nao tem nada?
+        this.numeroCartaoSUS = numeroCartaoSUS;
+    }
+
+    
+
+    public String getNumeroCartaoSUS() {
+        return numeroCartaoSUS;
+    }
+
+    public void setNumeroCartaoSUS(String numeroCartaoSUS) {
+        this.numeroCartaoSUS = numeroCartaoSUS;
+    }
+
+    // Método específico para pacientes
+    public void marcarConsulta() {
+        System.out.println("Paciente marcando consulta.");
+    }
     
 }
