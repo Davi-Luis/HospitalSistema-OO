@@ -57,12 +57,7 @@ public class SistemaHospitalOO {
         teste.setVisible(true);
         
         
-        //String linha = "Linha para incluir no arquivo!";
-	File file = new File("C:\\Users\\Taynara Ferraz\\Documents\\NetBeansProjects\\teste.txt");
- 
-        try (FileWriter arquivoEscrito = new FileWriter(file, true)) {
-            arquivoEscrito.write("Oi, Olival!\n"); // escreve o texto dentro do arquivo e pula uma linha com /n
-        } // escreve o texto dentro do arquivo e pula uma linha com /n
+        
     }
     
 }
