@@ -3,7 +3,11 @@
  */
 
 package com.mycompany.sistemahospitaloo;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
+import javax.swing.JFrame;
 /**
  *
  * @author davil
@@ -21,7 +25,7 @@ public class SistemaHospitalOO {
         
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         
         System.out.println("""
                            Bem-vindo(a) ao Hospital Universit\u00e1rio!
@@ -49,6 +53,16 @@ public class SistemaHospitalOO {
                 throw new AssertionError();
         }
         
+        JFrame teste = new ViewLogin();
+        teste.setVisible(true);
+        
+        
+        //String linha = "Linha para incluir no arquivo!";
+	File file = new File("C:\\Users\\Taynara Ferraz\\Documents\\NetBeansProjects\\teste.txt");
+ 
+        try (FileWriter arquivoEscrito = new FileWriter(file, true)) {
+            arquivoEscrito.write("Oi, Olival!\n"); // escreve o texto dentro do arquivo e pula uma linha com /n
+        } // escreve o texto dentro do arquivo e pula uma linha com /n
     }
     
 }

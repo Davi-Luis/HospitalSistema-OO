@@ -4,12 +4,16 @@
  */
 package com.mycompany.sistemahospitaloo;
 
+import java.io.IOException;
+
 /**
  *
  * @author Taynara Ferraz
  */
 public class ViewLogin extends javax.swing.JFrame {
-
+    
+    Usuario user;
+    
     /**
      * Creates new form ViewLogin
      */
@@ -44,6 +48,12 @@ public class ViewLogin extends javax.swing.JFrame {
 
         jLabel2.setText("Usuario");
 
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
         jLabel3.setText("Senha");
 
         jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
@@ -53,6 +63,11 @@ public class ViewLogin extends javax.swing.JFrame {
         });
 
         jButton1.setText("Entrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(153, 204, 255));
         jButton2.setText("Cadastrar");
@@ -132,17 +147,30 @@ public class ViewLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+
+        
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        user = new Usuario(jTextField1.getText(), new String(jPasswordField1.getPassword()));
+        System.out.println(user.getUser()+ " "+user.getSenha());
+    } 
+    
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
