@@ -11,8 +11,8 @@ package com.mycompany.sistemahospitaloo;
 public class Paciente extends Usuario {
     private String numeroCartaoSUS;
 
-    public Paciente(String numeroCartaoSUS) {
-        super(); //precisa disso ja que nao tem nada?
+    public Paciente(String user, String senha, String cpf, String numeroCartaoSUS) {
+        super(user, senha, cpf); //precisa disso ja que nao tem nada?
         this.numeroCartaoSUS = numeroCartaoSUS;
     }
 

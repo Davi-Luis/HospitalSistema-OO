@@ -46,7 +46,7 @@ public class ViewLogin extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/abrir-cadeado (3).png"))); // NOI18N
 
-        jLabel2.setText("Usuario");
+        jLabel2.setText("Email");
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,7 +152,8 @@ public class ViewLogin extends javax.swing.JFrame {
 
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
+        ViewCadastro tela = new ViewCadastro();
+        tela.setVisible(true);
         
     }//GEN-LAST:event_jButton2ActionPerformed
 

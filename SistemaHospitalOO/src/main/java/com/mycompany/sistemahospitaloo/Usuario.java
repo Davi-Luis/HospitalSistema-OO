@@ -11,12 +11,18 @@ package com.mycompany.sistemahospitaloo;
 public class Usuario {
     private String user;
     private String senha;
+    private String cpf;
 
+    public Usuario(String user, String senha, String cpf) {
+        this.user = user;
+        this.senha = senha;
+        this.cpf = cpf;
+    }
+    
     public Usuario(String user, String senha) {
         this.user = user;
         this.senha = senha;
     }
-    
     public Usuario() { //construtor padrao
        
     }
@@ -25,6 +31,10 @@ public class Usuario {
         return user;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+    
     public String getSenha() {
         return senha;
     }
