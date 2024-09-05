@@ -4,13 +4,16 @@
  */
 package com.mycompany.sistemahospitaloo;
 
+import java.io.IOException;
+
 /**
  *
  * @author Taynara Ferraz
  */
 public class ViewCadastro extends javax.swing.JFrame {
-        
+
     Paciente user;
+
     /**
      * Creates new form ViewCadastro
      */
@@ -164,8 +167,15 @@ public class ViewCadastro extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        user = new Paciente(jTextField1.getText(), new String(jPasswordField1.getPassword()), jTextField2.getText(), jTextField3.getText());
-        System.out.println(user.getUser()+ " " + user.getCpf() + " "+user.getNumeroCartaoSUS()+ " " + user.getCpf());
+            
+            Arquivo arq = new Arquivo();
+            user = new Paciente(jTextField1.getText(), new String(jPasswordField1.getPassword()), jTextField2.getText(), jTextField3.getText());
+            arq.adiciona("src/main/resources/dados.txt", user.getUser(), 4);
+            arq.adiciona("src/main/resources/dados.txt", user.getCpf(), 4);
+            arq.adiciona("src/main/resources/dados.txt", user.getNumeroCartaoSUS(), 4);
+            arq.adiciona("src/main/resources/dados.txt", user.getSenha(), 4);
+            System.out.println(user.getUser() + " " + user.getCpf() + " " + user.getNumeroCartaoSUS() + " " + user.getSenha());
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed

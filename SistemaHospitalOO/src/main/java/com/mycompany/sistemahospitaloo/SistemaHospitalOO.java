@@ -27,7 +27,7 @@ public class SistemaHospitalOO {
 
     public static void main(String[] args) throws IOException{
         
-        System.out.println("""
+        /*System.out.println("""
                            Bem-vindo(a) ao Hospital Universit\u00e1rio!
                            Digite seu nome de usu\u00e1rio e senha."""); //se nao tiver cadastro, clique em realizar cadastro
         Scanner leitor = new Scanner(System.in);
@@ -52,7 +52,7 @@ public class SistemaHospitalOO {
             default:
                 throw new AssertionError();
         }
-        
+        */
         JFrame teste = new ViewLogin();
         teste.setVisible(true);
         
