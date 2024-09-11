@@ -7,11 +7,13 @@ package com.mycompany.sistemahospitaloo;
 public class Medico extends Funcionario {
     private String especialidade;
     private String numeroCRM;
+    private int id;
 
-    public Medico(String especialidade, String numeroCRM, String nome, String id, String user, String senha) {
-        super(nome, id, user, senha);
+    public Medico(String especialidade, String numeroCRM, String user, String senha, int id) {
+        super(user, senha);
         this.especialidade = especialidade;
         this.numeroCRM = numeroCRM;
+        this.id = id;
     }
 
     

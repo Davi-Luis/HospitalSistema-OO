@@ -9,31 +9,10 @@ package com.mycompany.sistemahospitaloo;
  * @author davil
  */
 public class Funcionario extends Usuario{
-    private String nome;
-    private String id;
-
-    public Funcionario(String nome, String id, String user, String senha) {
+    
+    public Funcionario(String user, String senha) {
         super(user, senha);
-        this.nome = nome;
-        this.id = id;
-    }
-
-   
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        
     }
 
     // Métodos comuns a todos os funcionários

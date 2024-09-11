@@ -10,10 +10,8 @@ package com.mycompany.sistemahospitaloo;
  */
 public class Admin extends Funcionario{
 
-    public Admin(String nome, String id, String user, String senha) {
-        super(nome, id, user, senha);
+    public Admin( String user, String senha) {
+        super(user, senha);
     }
-
-    
     
 }

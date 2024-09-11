@@ -47,7 +47,7 @@ public class Arquivo {
     public void adiciona(String filePath, String content, int n) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             writer.write(content);
-            writer.write(" ");
+            writer.write(",");
             
             count++;  // Incrementa o contador. Adicionei essa variavel para poder reutilizar a funcao para adicionar objetos com outras quantidades de informações
 
