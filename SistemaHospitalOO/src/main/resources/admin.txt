@@ -1,0 +1,2 @@
+//login do admin. Buscar aqui primeiro, se não encontrar, buscar no login.txt
+admin,123456

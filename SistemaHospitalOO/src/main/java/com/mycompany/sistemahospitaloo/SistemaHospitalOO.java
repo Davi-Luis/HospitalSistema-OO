@@ -53,8 +53,8 @@ public class SistemaHospitalOO {
                 throw new AssertionError();
         }
         */
-        String filePath = "src/main/resources/login.txt";//cria arquivo dinamicamente 
-        Arquivo.criaArquivo(filePath);
+        String filePath3 = "src/main/resources/dadosMedico.txt";//cria arquivo dinamicamente 
+        Arquivo.criaArquivo(filePath3);
         
         JFrame teste = new ViewLogin();
         teste.setVisible(true);
