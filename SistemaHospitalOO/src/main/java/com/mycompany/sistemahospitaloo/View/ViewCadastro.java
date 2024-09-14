@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.sistemahospitaloo;
+package com.mycompany.sistemahospitaloo.View;
 
-import java.io.IOException;
+import com.mycompany.sistemahospitaloo.Arquivo;
+import com.mycompany.sistemahospitaloo.Paciente;
 
 /**
  *
@@ -19,6 +20,7 @@ public class ViewCadastro extends javax.swing.JFrame {
      */
     public ViewCadastro() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

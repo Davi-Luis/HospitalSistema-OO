@@ -3,10 +3,8 @@
  */
 
 package com.mycompany.sistemahospitaloo;
-import java.io.File;
-import java.io.FileWriter;
+import com.mycompany.sistemahospitaloo.View.ViewLogin;
 import java.io.IOException;
-import java.util.Scanner;
 import javax.swing.JFrame;
 /**
  *

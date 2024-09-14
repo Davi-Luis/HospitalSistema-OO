@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.sistemahospitaloo;
+package com.mycompany.sistemahospitaloo.View;
 
+import com.mycompany.sistemahospitaloo.Usuario;
 import java.io.IOException;
 
 /**
@@ -19,6 +20,7 @@ public class ViewLogin extends javax.swing.JFrame {
      */
     public ViewLogin() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -160,7 +162,20 @@ public class ViewLogin extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
         user = new Usuario(jTextField1.getText(), new String(jPasswordField1.getPassword()));
-        System.out.println(user.getUser()+ " "+user.getSenha());
+        if(user.getUser().equals("admin") && user.getSenha().equals("123456")){
+            DashboardAdm novo = new DashboardAdm(user.getUser());
+            novo.setVisible(true);
+        }
+        else if(user.getUser().equals("medico") && user.getSenha().equals("1234567")){
+            DashboardMedico novo = new DashboardMedico(user.getUser());
+            novo.setVisible(true);
+        }
+        else if((user.getUser().equals("paciente") && user.getSenha().equals("12345678")) || 
+                (user.getUser().equals("taynara") && user.getSenha().equals("12345678"))){
+            DashboardPaciente novo = new DashboardPaciente(user);
+            novo.setVisible(true);
+        }
+        
     } 
     
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
