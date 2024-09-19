@@ -4,7 +4,9 @@
  */
 package com.mycompany.sistemahospitaloo.View;
 
+import com.google.gson.Gson;
 import com.mycompany.sistemahospitaloo.Arquivo;
+import com.mycompany.sistemahospitaloo.Login;
 import com.mycompany.sistemahospitaloo.Paciente;
 
 /**
@@ -122,9 +124,6 @@ public class ViewCadastro extends javax.swing.JFrame {
                         .addGap(191, 191, 191)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(221, 221, 221)
-                        .addComponent(jLabel5))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(124, 124, 124)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel4)
@@ -134,7 +133,10 @@ public class ViewCadastro extends javax.swing.JFrame {
                             .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
                             .addComponent(jPasswordField1)
                             .addComponent(jFormattedTextField1)
-                            .addComponent(jFormattedTextField2))))
+                            .addComponent(jFormattedTextField2)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(222, 222, 222)
+                        .addComponent(jLabel5)))
                 .addContainerGap(122, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -178,19 +180,15 @@ public class ViewCadastro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-            
-            Arquivo arq = new Arquivo();
-            user = new Paciente(jTextField1.getText(), new String(jPasswordField1.getPassword()), jFormattedTextField1.getText(), jFormattedTextField2.getText());
-            arq.adiciona("src/main/resources/dados.txt", user.getUser(), 4);
-            arq.adiciona("src/main/resources/dados.txt", user.getCpf(), 4);
-            arq.adiciona("src/main/resources/dados.txt", user.getNumeroCartaoSUS(), 4);
-            arq.adiciona("src/main/resources/dados.txt", user.getSenha(), 4);
-            
-            arq.adiciona("src/main/resources/login.txt", user.getUser(), 2);
-            arq.adiciona("src/main/resources/login.txt", user.getSenha(), 2);
-            System.out.println(user.getUser() + " " + user.getCpf() + " " + user.getNumeroCartaoSUS() + " " + user.getSenha());
+// TODO add your handling code here:
+        user = new Paciente(jTextField1.getText(), new String(jPasswordField1.getPassword()), jFormattedTextField1.getText(), jFormattedTextField2.getText());
         
+        Login login = new Login(jTextField1.getText(), new String(jPasswordField1.getPassword()));
+        Arquivo.adiciona("src/main/resources/loginPacientes.json", login);
+        Arquivo.adiciona("src/main/resources/dadosCadastraisPacientes.json", user);
+        
+        System.out.println(user.getUser() + " " + user.getCpf() + " " + user.getNumeroCartaoSUS() + " " + user.getSenha());
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed

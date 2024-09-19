@@ -1,0 +1,14 @@
+[
+  {
+    "numeroCartaoSUS": "111111111111111",
+    "user": "taynara",
+    "senha": "12123",
+    "cpf": "114.185.566-61"
+  },
+  {
+    "numeroCartaoSUS": "152255544566666",
+    "user": "taynara",
+    "senha": "teste123",
+    "cpf": "114.185.566-61"
+  }
+]

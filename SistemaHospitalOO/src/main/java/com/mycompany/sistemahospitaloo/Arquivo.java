@@ -8,11 +8,18 @@ package com.mycompany.sistemahospitaloo;
  *
  * @author davil
  */
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import java.util.List;
 import java.io.*;
-  
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
 public class Arquivo {
 
     private int count = 0;
+
     // Método para criar um novo arquivo, se ele não existir
     public static void criaArquivo(String filePath) {
         File arquivo = new File(filePath);
@@ -44,21 +51,34 @@ public class Arquivo {
     }
 
     // Método para adicionar conteúdo ao final do arquivo
-    public void adiciona(String filePath, String content, int n) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            writer.write(content);
-            writer.write(",");
-            
-            count++;  // Incrementa o contador. Adicionei essa variavel para poder reutilizar a funcao para adicionar objetos com outras quantidades de informações
+    public static void adiciona(String filePath, Object content) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        List<Object> existingContent = new ArrayList<>();
 
-            // Verifica se o número de inserções chegou a "n" e, se sim, adiciona uma nova linha
-            if (count >= n) {
-                writer.newLine();
-                count = 0;  // Reseta o contador após adicionar a nova linha
+        // Tentar ler o conteúdo existente no arquivo
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            Type listType = new TypeToken<List<Object>>(){}.getType();
+            existingContent = gson.fromJson(reader, listType);
+            if (existingContent == null) {
+                existingContent = new ArrayList<>();
             }
+        } catch (FileNotFoundException e) {
+            System.out.println("Arquivo não encontrado. Criando um novo arquivo.");
+        } catch (IOException e) {
+            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+        }
+
+        // Adicionar o novo conteúdo ao array existente
+        existingContent.add(content);
+
+        // Reescrever o arquivo com o conteúdo atualizado
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            String json = gson.toJson(existingContent);
+            writer.write(json);
         } catch (IOException e) {
             System.out.println("Erro ao adicionar ao arquivo: " + e.getMessage());
         }
+    
     }
 
     // Método para apagar uma linha específica no arquivo

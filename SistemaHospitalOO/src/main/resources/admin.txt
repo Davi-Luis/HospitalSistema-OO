@@ -1,2 +1,0 @@
-//login do admin. Buscar aqui primeiro, se não encontrar, buscar no medico.txt e depois no pacientes.txt
-admin,123456

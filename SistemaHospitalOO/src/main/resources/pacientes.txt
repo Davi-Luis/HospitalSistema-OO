@@ -1,3 +1,0 @@
-//loginde todos os pacientes
-taynara 55555555555 
-taynara,888/8//,
