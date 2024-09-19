@@ -4,11 +4,18 @@
  */
 package com.mycompany.sistemahospitaloo.View;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mycompany.sistemahospitaloo.Arquivo;
 import com.mycompany.sistemahospitaloo.Login;
 import com.mycompany.sistemahospitaloo.Medico;
 import com.mycompany.sistemahospitaloo.Paciente;
 import com.mycompany.sistemahospitaloo.Usuario;
+import java.io.FileReader;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,7 +29,37 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
      */
     public GerenciamentoDosMedicos() {
         initComponents();
+        carregaDados();
         setLocationRelativeTo(null);
+    }
+    
+    private void carregaDados(){
+        String filePath = "src/main/resources/dadosCadastraisMedicos.json";
+        
+        try {
+            Gson gson = new Gson();
+            FileReader reader = new FileReader(filePath);
+            JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+            model.setRowCount(0);
+
+            for (JsonElement element : jsonArray) {
+                JsonObject obj = element.getAsJsonObject();
+
+                String nome = obj.has("user") ? obj.get("user").getAsString() : null;
+                String senha  = obj.has("senha") ? obj.get("senha").getAsString() : null;
+                String especialidade = obj.has("especialidade") ? obj.get("especialidade").getAsString() : null;
+                String numCrm = obj.has("numeroCRM") ? obj.get("numeroCRM").getAsString() : null;
+
+                model.addRow(new Object[]{nome, senha, especialidade, numCrm});
+            }
+
+            reader.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar o arquivo JSON: " + e.getMessage());
+        }
     }
 
     /**

@@ -4,6 +4,14 @@
  */
 package com.mycompany.sistemahospitaloo.View;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import java.io.FileReader;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Taynara Ferraz
@@ -15,9 +23,37 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
      */
     public GerenciamentoPacientes() {
         initComponents();
+        carregaDados();
         setLocationRelativeTo(null);
     }
 
+    private void carregaDados(){
+        String filePath = "src/main/resources/dadosCadastraisPacientes.json";
+        
+        try {
+            Gson gson = new Gson();
+            FileReader reader = new FileReader(filePath);
+            JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+            model.setRowCount(0);
+
+            for (JsonElement element : jsonArray) {
+                JsonObject obj = element.getAsJsonObject();
+
+                String nome = obj.has("user") ? obj.get("user").getAsString() : "N/A";
+                String num  = obj.has("numeroCartaoSUS") ? obj.get("numeroCartaoSUS").getAsString() : null;
+                String cpf = obj.has("cpf") ? obj.get("cpf").getAsString() : "N/A";
+
+                model.addRow(new Object[]{nome, num, cpf});
+            }
+
+            reader.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar o arquivo JSON: " + e.getMessage());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -80,6 +116,11 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
         jLabel4.setText("Pacientes");
 
         jButton2.setText("Editar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Excluir");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -189,6 +230,10 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
