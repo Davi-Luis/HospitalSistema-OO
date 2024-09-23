@@ -16,5 +16,53 @@
     "user": "taynara",
     "senha": "teste123",
     "cpf": "114.185.566-61"
+  },
+  {
+    "numeroCartaoSUS": "               ",
+    "user": "21",
+    "senha": "1",
+    "cpf": "212.123.121-32"
+  },
+  {
+    "numeroCartaoSUS": "               ",
+    "user": "21",
+    "senha": "1",
+    "cpf": "212.123.121-32"
+  },
+  {
+    "numeroCartaoSUS": "546546546546546",
+    "user": "gfh",
+    "senha": "oi",
+    "cpf": "123.456.789-09"
+  },
+  {
+    "numeroCartaoSUS": "546546546546546",
+    "user": "gfh",
+    "senha": "oi",
+    "cpf": "123.456.789-09"
+  },
+  {
+    "numeroCartaoSUS": "111111111111111",
+    "user": "davi",
+    "senha": "certo",
+    "cpf": "123.456.789-09"
+  },
+  {
+    "numeroCartaoSUS": "111111111111111",
+    "user": "davi",
+    "senha": "certo",
+    "cpf": "123.456.789-09"
+  },
+  {
+    "numeroCartaoSUS": "111111111111111",
+    "user": "davi certo",
+    "senha": "aa",
+    "cpf": "123.456.789-09"
+  },
+  {
+    "numeroCartaoSUS": "111111111111111",
+    "user": "adas",
+    "senha": "senha certa",
+    "cpf": "123.456.789-09"
   }
 ]

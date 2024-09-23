@@ -8,6 +8,9 @@ import com.google.gson.Gson;
 import com.mycompany.sistemahospitaloo.Arquivo;
 import com.mycompany.sistemahospitaloo.Login;
 import com.mycompany.sistemahospitaloo.Paciente;
+import com.mycompany.sistemahospitaloo.VerificaCPF;
+import com.mycompany.sistemahospitaloo.VerificaCartaoSUS;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -179,15 +182,52 @@ public class ViewCadastro extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void mostrarMensagemErro(String mensagem) {
+    JOptionPane.showMessageDialog(this, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
+}
+
+private boolean cadastrarPaciente() {
+    // Verifica CPF
+    if (!VerificaCPF.verificaCPF(jFormattedTextField1.getText())) {
+        mostrarMensagemErro("CPF inválido. Por favor, tente novamente.");
+        jFormattedTextField1.setText(""); // Limpa o campo CPF
+        jFormattedTextField1.requestFocus(); // Foca no campo CPF
+        return false; // Sai do método
+    }
+
+    // Verifica Cartão SUS
+    if (!VerificaCartaoSUS.verificaSUS(jFormattedTextField2.getText())) {
+        mostrarMensagemErro("Cartão SUS inválido. Por favor, tente novamente.");
+        jFormattedTextField2.setText(""); // Limpa o campo Cartão SUS
+        jFormattedTextField2.requestFocus(); // Foca no campo Cartão SUS
+        return false; // Sai do método
+    }
+    if(jTextField1.getText().isEmpty()){
+        mostrarMensagemErro("Campo de nome vazio. Por favor, tente novamente.");
+        return false;  
+    }
+    if(jPasswordField1.getPassword().length == 0){
+        mostrarMensagemErro("Campo de senha vazio. Por favor, tente novamente.");
+        return false;  
+    }
+    //se ambos os campos forem válidos e nenhum vazio, cria o usuário
+    user = new Paciente(jTextField1.getText(), new String(jPasswordField1.getPassword()), jFormattedTextField1.getText(), jFormattedTextField2.getText());
+
+    // Adiciona os dados ao arquivo
+    Login login = new Login(jTextField1.getText(), new String(jPasswordField1.getPassword()));
+    Arquivo.adiciona("src/main/resources/loginPacientes.json", login);
+    Arquivo.adiciona("src/main/resources/dadosCadastraisPacientes.json", user);
+    return true;
+    
+}
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-// TODO add your handling code here:
-        user = new Paciente(jTextField1.getText(), new String(jPasswordField1.getPassword()), jFormattedTextField1.getText(), jFormattedTextField2.getText());
-        
-        Login login = new Login(jTextField1.getText(), new String(jPasswordField1.getPassword()));
-        Arquivo.adiciona("src/main/resources/loginPacientes.json", login);
-        Arquivo.adiciona("src/main/resources/dadosCadastraisPacientes.json", user);
-        
-        System.out.println(user.getUser() + " " + user.getCpf() + " " + user.getNumeroCartaoSUS() + " " + user.getSenha());
+
+        if(cadastrarPaciente()){
+        //fecha a tela em caso de cadastro bem sucedido
+        JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        dispose();
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
