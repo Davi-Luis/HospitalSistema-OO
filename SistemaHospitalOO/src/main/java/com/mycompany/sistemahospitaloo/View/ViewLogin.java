@@ -6,6 +6,12 @@ package com.mycompany.sistemahospitaloo.View;
 
 import com.mycompany.sistemahospitaloo.Usuario;
 import java.io.IOException;
+ import java.io.FileReader;
+import java.io.IOException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -158,20 +164,53 @@ public class ViewLogin extends javax.swing.JFrame {
         tela.setVisible(true);
         
     }//GEN-LAST:event_jButton2ActionPerformed
+    
 
+
+    // Método para verificar se o login está cadastrado no JSON
+    public boolean verificaLogin(String username, String password, String filepath) {
+        JSONParser parser = new JSONParser();
+
+        try {
+            // Carrega o arquivo JSON
+            JSONArray loginsArray = (JSONArray) parser.parse(new FileReader(filepath));
+
+            // Percorre a lista de logins
+            for (Object loginObj : loginsArray) {
+                JSONObject loginData = (JSONObject) loginObj;
+                
+                String usuario = (String) loginData.get("user");
+                String senha = (String) loginData.get("senha");
+
+                // Verifica se o usuário e senha digitados correspondem
+                if (usuario.equals(username) && senha.equals(password)) {
+                    return true; // Login bem-sucedido
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        
+        return false; // Login falhou
+    }
+
+
+
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
         user = new Usuario(jTextField1.getText(), new String(jPasswordField1.getPassword()));
-        if(user.getUser().equals("admin") && user.getSenha().equals("123456")){
+      
+        String senhaString = new String(jPasswordField1.getPassword());
+        if(verificaLogin(jTextField1.getText(), senhaString, "src/main/resources/admin.json")){
             DashboardAdm novo = new DashboardAdm(user.getUser());
             novo.setVisible(true);
         }
-        else if(user.getUser().equals("medico") && user.getSenha().equals("1234567")){
+        else if(verificaLogin(jTextField1.getText(), senhaString, "src/main/resources/loginMedicos.json")){
             DashboardMedico novo = new DashboardMedico(user.getUser());
             novo.setVisible(true);
         }
-        else if((user.getUser().equals("paciente") && user.getSenha().equals("12345678")) || 
-                (user.getUser().equals("taynara") && user.getSenha().equals("12345678"))){
+        else if(verificaLogin(jTextField1.getText(), senhaString, "src/main/resources/loginPacientes.json")){
             DashboardPaciente novo = new DashboardPaciente(user);
             novo.setVisible(true);
         }
