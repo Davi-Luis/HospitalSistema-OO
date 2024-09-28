@@ -4,6 +4,19 @@
  */
 package com.mycompany.sistemahospitaloo.View;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mycompany.sistemahospitaloo.Arquivo;
+import com.mycompany.sistemahospitaloo.PlanoDeSaude;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Taynara Ferraz
@@ -15,9 +28,35 @@ public class GerenciamentoPlanosDeSaude extends javax.swing.JFrame {
      */
     public GerenciamentoPlanosDeSaude() {
         initComponents();
+        carregaDados();
         setLocationRelativeTo(null);
     }
+    private void carregaDados(){
+        String filePath = "src/main/resources/planosDeSaude.json";
+        
+        try {
+            Gson gson = new Gson();
+            FileReader reader = new FileReader(filePath);
+            JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+            model.setRowCount(0);
+
+            for (JsonElement element : jsonArray) {
+                JsonObject obj = element.getAsJsonObject();
+
+                String nome = obj.has("nome") ? obj.get("nome").getAsString() : null;
+               
+
+                model.addRow(new Object[]{nome});
+            }
+
+            reader.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar o arquivo JSON: " + e.getMessage());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,9 +69,9 @@ public class GerenciamentoPlanosDeSaude extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -42,8 +81,6 @@ public class GerenciamentoPlanosDeSaude extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 255));
 
         jLabel1.setText("Plano de Saúde");
-
-        jButton1.setText("Adicionar");
 
         jButton2.setText("Editar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -56,6 +93,13 @@ public class GerenciamentoPlanosDeSaude extends javax.swing.JFrame {
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Adicionar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -75,9 +119,9 @@ public class GerenciamentoPlanosDeSaude extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(85, 85, 85))
         );
         jPanel1Layout.setVerticalGroup(
@@ -87,9 +131,9 @@ public class GerenciamentoPlanosDeSaude extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(33, 33, 33)
                 .addComponent(jButton1)
-                .addGap(30, 30, 30)
+                .addGap(29, 29, 29)
                 .addComponent(jButton2)
                 .addGap(26, 26, 26)
                 .addComponent(jButton3)
@@ -146,13 +190,114 @@ public class GerenciamentoPlanosDeSaude extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+if (selectedRow != -1) {
+    String novoNome = jTextField1.getText();
+    
+    if (novoNome != null && !novoNome.trim().isEmpty()) {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        String nomeAntigo = model.getValueAt(selectedRow, 0).toString();
+        model.setValueAt(novoNome, selectedRow, 0);  // Atualiza a tabela
+        
+        // Atualiza o arquivo JSON
+        String filePath = "src/main/resources/planosDeSaude.json";
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();  // Mantém a formatação JSON
+            FileReader reader = new FileReader(filePath);
+            JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
+            reader.close();
+
+            // Percorre o JSON procurando pelo nome antigo e atualiza o nome
+            for (JsonElement element : jsonArray) {
+                JsonObject obj = element.getAsJsonObject();
+                if (obj.get("nome").getAsString().equals(nomeAntigo)) {
+                    obj.addProperty("nome", novoNome);  // Atualiza o JSON com o novo nome
+                    break;
+                }
+            }
+            
+            // Salvar as alterações de volta no arquivo JSON
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                writer.write(gson.toJson(jsonArray));  // Sobrescreve o arquivo com o conteúdo atualizado
+            }
+            
+            JOptionPane.showMessageDialog(null, "Plano de saúde atualizado com sucesso.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao editar o plano de saúde: " + e.getMessage());
+        }
+    }
+} else {
+    JOptionPane.showMessageDialog(null, "Selecione um plano de saúde para editar.");
+}
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+ 
+    int selectedRow = jTable1.getSelectedRow();
+if (selectedRow != -1) {
+        int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir este plano de saúde?", "Confirmar Exclusão", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    String nomeParaExcluir = model.getValueAt(selectedRow, 0).toString();  // Obtém o nome da linha a ser excluída
 
+    // Remove a linha da tabela
+    model.removeRow(selectedRow);  
+
+    // Atualiza o arquivo JSON
+    String filePath = "src/main/resources/planosDeSaude.json";
+    try {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();  // Mantém a formatação JSON
+        FileReader reader = new FileReader(filePath);
+        JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
+        reader.close();
+
+        // Remove o objeto do JSON com o nome correspondente
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JsonObject obj = jsonArray.get(i).getAsJsonObject();
+            if (obj.get("nome").getAsString().equals(nomeParaExcluir)) {
+                jsonArray.remove(i);  // Remove o objeto do JSON
+                break;  // Sai do loop após encontrar e remover
+            }
+        }
+
+        // Salvar as alterações de volta no arquivo JSON
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(gson.toJson(jsonArray));  // Sobrescreve o arquivo com o conteúdo atualizado
+        }
+        
+        JOptionPane.showMessageDialog(null, "Plano de saúde excluído com sucesso.");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Erro ao excluir o plano de saúde: " + e.getMessage());
+    }
+} else {
+    JOptionPane.showMessageDialog(null, "Selecione um plano de saúde para excluir.");
+}
+
+
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+    }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if("".equals(jTextField1.getText())){
+                JOptionPane.showMessageDialog(null, "Insira um nome de plano de saúde para atualizar.");
+            }
+            else{
+                try {
+            PlanoDeSaude plano = new PlanoDeSaude(jTextField1.getText());
+
+                Arquivo.adiciona("src/main/resources/planosDeSaude.json", plano);
+                carregaDados(); // Recarregar a tabela com os dados atualizados
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao adicionar o plano de saúde: " + e.getMessage());
+                e.printStackTrace(); // Para mostrar o erro no console
+            }
+            }
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+   
+    
     /**
      * @param args the command line arguments
      */

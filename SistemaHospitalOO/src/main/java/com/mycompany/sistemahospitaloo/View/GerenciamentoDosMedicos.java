@@ -266,6 +266,18 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
 
     
     private boolean gerenciaMedico(){
+        if("".equals(jTextField1.getText())){
+            mostrarMensagemErro("Campo de nome vazio. Por favor, tente novamente.");
+            return false;
+        }
+        if("".equals(jTextField4.getText())){
+            mostrarMensagemErro("Campo de senha vazio. Por favor, tente novamente.");
+            return false;
+        }
+        if("".equals(jTextField2.getText())){
+            mostrarMensagemErro("Campo de especialidade vazio. Por favor, tente novamente.");
+            return false;
+        }
         if(!VerificaCRM.verificaCRM(jTextField3.getText())){
               mostrarMensagemErro("CRM inválido. Por favor, tente novamente.");
         jTextField3.setText(""); // Limpa o campo CPF
@@ -279,7 +291,7 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
        if(gerenciaMedico()){
         //fecha a tela em caso de cadastro bem sucedido
         JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-        dispose();
+        
         user = new Medico(jTextField2.getText(), jTextField3.getText(), jTextField1.getText(), jTextField4.getText(), 2);
         
         Login login = new Login(jTextField1.getText(), jTextField4.getText());
