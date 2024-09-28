@@ -5,16 +5,20 @@
 package com.mycompany.sistemahospitaloo.View;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mycompany.sistemahospitaloo.VerificaCPF;
 import com.mycompany.sistemahospitaloo.VerificaCartaoSUS;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Taynara Ferraz
@@ -30,9 +34,9 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void carregaDados(){
+    private void carregaDados() {
         String filePath = "src/main/resources/dadosCadastraisPacientes.json";
-        
+
         try {
             Gson gson = new Gson();
             FileReader reader = new FileReader(filePath);
@@ -46,7 +50,7 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
                 JsonObject obj = element.getAsJsonObject();
 
                 String nome = obj.has("user") ? obj.get("user").getAsString() : null;
-                String num  = obj.has("numeroCartaoSUS") ? obj.get("numeroCartaoSUS").getAsString() : null;
+                String num = obj.has("numeroCartaoSUS") ? obj.get("numeroCartaoSUS").getAsString() : null;
                 String cpf = obj.has("cpf") ? obj.get("cpf").getAsString() : null;
 
                 model.addRow(new Object[]{nome, num, cpf});
@@ -57,6 +61,24 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro ao carregar o arquivo JSON: " + e.getMessage());
         }
     }
+    
+    private void mostrarMensagemErro(String mensagem) {
+        JOptionPane.showMessageDialog(this, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private boolean gerenciaPaciente() {
+        if (!VerificaCPF.verificaCPF(jTextField3.getText())) {
+            mostrarMensagemErro("CPF inválido. Por favor, tente novamente.");
+            return false; // Sai do método
+        }
+        if(!VerificaCartaoSUS.verificaSUS(jTextField2.getText())){
+            mostrarMensagemErro("Cartão do SUS inválido. Por favor, tente novamente.");
+            return false;
+        }
+        return true;
+    }
+  
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -113,6 +135,12 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
         });
 
         jLabel3.setText("CPF");
+
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 204));
@@ -245,49 +273,168 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+            int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir este usuário(a)?", "Confirmar Exclusão", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                String nomeParaExcluir = model.getValueAt(selectedRow, 0).toString();
+                String numParaExcluir = model.getValueAt(selectedRow, 1).toString();
+                String cpfParaExcluir = model.getValueAt(selectedRow, 2).toString();
+
+                // Atualiza o arquivo JSON
+                String filePath = "src/main/resources/dadosCadastraisPacientes.json";
+                String filePathLogin = "src/main/resources/loginPacientes.json";
+                try {
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();  // Mantém a formatação JSON
+                    FileReader reader = new FileReader(filePath);
+                    FileReader readerLogin = new FileReader(filePathLogin);
+                    JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
+                    JsonArray jsonArrayLogin = gson.fromJson(readerLogin, JsonArray.class);
+                    reader.close();
+                    readerLogin.close();
+
+                    // Remove o objeto do JSON com o nome correspondente
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        JsonObject obj = jsonArray.get(i).getAsJsonObject();
+                        if (obj.get("user").getAsString().equals(nomeParaExcluir) && obj.get("numeroCartaoSUS").getAsString().equals(numParaExcluir)
+                                && obj.get("cpf").getAsString().equals(cpfParaExcluir) ) {
+                            jsonArray.remove(i);  // Remove o objeto do JSON
+                            break;  // Sai do loop após encontrar e remover
+                        }
+                    }
+
+                    for (int i = 0; i < jsonArrayLogin.size(); i++) {
+                        JsonObject obj1 = jsonArrayLogin.get(i).getAsJsonObject();
+                        if (obj1.get("user").getAsString().equals(nomeParaExcluir)) {
+                            jsonArrayLogin.remove(i);  // Remove o objeto do JSON
+                            break;  // Sai do loop após encontrar e remover
+                        }
+                    }
+
+                    model.removeRow(selectedRow);
+                    jTextField1.setText(null);
+                    jTextField2.setText(null);
+                    jTextField3.setText(null);
+
+                    // Salvar as alterações de volta no arquivo JSON
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                        writer.write(gson.toJson(jsonArray));  // Sobrescreve o arquivo com o conteúdo atualizado
+                    }
+
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePathLogin))) {
+                        writer.write(gson.toJson(jsonArrayLogin));  // Sobrescreve o arquivo com o conteúdo atualizado
+                    }
+
+                    JOptionPane.showMessageDialog(null, "Usuário(a) excluído(a) com sucesso.");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Erro ao excluir o(a) usuário(a) ");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecione um(a) usuário(a) para excluir.");
+            }
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         //edit
-        JFrame tela = new JFrame();
-        int linha = jTable1.getSelectedRow();
+        boolean pacienteEncontrado = false;
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+            String novoNome = jTextField1.getText();
+            String novoNumSus = jTextField2.getText();
+            String novoCpf = jTextField3.getText();
 
-       // try {
+            if (novoNome != null && !novoNome.trim().isEmpty() && novoNumSus != null && !novoNumSus.trim().isEmpty()
+                    && novoCpf != null && !novoCpf.trim().isEmpty()) {
 
-            boolean testeCpf = VerificaCPF.verificaCPF(jTextField3.getText());
-            boolean testeSus = VerificaCartaoSUS.verificaSUS(jTextField2.getText());
-            
-            
-            
-           /* lista.get(linha).setNome(jTextField1.getText());
-            lista.get(linha).setCpf(teste);
-            lista.get(linha).setBirthDate(nova);
+                if (!gerenciaPaciente()) {
+                    return;
+                }
 
-            DefaultTableModel modeloTabela = (DefaultTableModel) jTable3.getModel();
-            modeloTabela.setValueAt(lista.get(linha).getNome(), linha, 0);
-            modeloTabela.setValueAt(lista.get(linha).getCpf(), linha, 1);
-            modeloTabela.setValueAt(lista.get(linha).getBirhDateString(), linha, 3);
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                String nomeAntigo = model.getValueAt(selectedRow, 0).toString();
+                String numSusAntigo = model.getValueAt(selectedRow, 1).toString();
+                String cpfAntigo = model.getValueAt(selectedRow, 2).toString();
 
-            jTextField1.setText(null);
-            jFormattedTextField1.setText(null);
-            jFormattedTextField2.setText(null);
-        } catch (CpfException e) {
-            JOptionPane.showMessageDialog(tela, "O cpf  é invalido!");
-        } catch(DataException e){
-            JOptionPane.showMessageDialog(tela, "A data  é invalido!");
-        }*/
+                // Atualiza o arquivo JSON
+                String filePath = "src/main/resources/dadosCadastraisPacientes.json";
+                String filePathLogin = "src/main/resources/loginPacientes.json";
+                try {
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();  // Mantém a formatação JSON
+                    FileReader reader = new FileReader(filePath);
+                    FileReader readerLogin = new FileReader(filePathLogin);
+                    JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
+                    JsonArray jsonArrayLogin = gson.fromJson(readerLogin, JsonArray.class);
+                    reader.close();
+                    readerLogin.close();
+
+                    // Percorre o JSON procurando pelo nome antigo e atualiza o nome
+                    for (JsonElement element : jsonArray) {
+                        JsonObject obj = element.getAsJsonObject();
+                        if (obj.get("user").getAsString().equals(nomeAntigo) &&
+                                obj.get("numeroCartaoSUS").getAsString().equals(numSusAntigo) && 
+                                obj.get("cpf").getAsString().equals(cpfAntigo)) {
+                            obj.addProperty("user", novoNome);  // Atualiza o JSON com o novo nome
+                            obj.addProperty("numeroCartaoSUS", novoNumSus);
+                            obj.addProperty("cpf", novoCpf);
+
+                            model.setValueAt(novoNome, selectedRow, 0);  // Atualiza a tabela
+                            model.setValueAt(novoNumSus, selectedRow, 1);
+                            model.setValueAt(novoCpf, selectedRow, 2);
+
+                            pacienteEncontrado = true;
+                            break;
+                        }
+
+                    }
+
+                    for (int i = 0; i < jsonArrayLogin.size(); i++) {
+                        JsonObject obj1 = jsonArrayLogin.get(i).getAsJsonObject();
+                        if (obj1.get("user").getAsString().equals(nomeAntigo)) {
+                            obj1.addProperty("user", novoNome);  // Atualiza o JSON com o novo nome
+                            break;  // Sai do loop após encontrar e remover
+                        }
+                    }
+
+                    // Salvar as alterações de volta no arquivo JSON
+                    if (pacienteEncontrado) {
+                        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                            writer.write(gson.toJson(jsonArray));  // Sobrescreve o arquivo com o conteúdo atualizado
+                            JOptionPane.showMessageDialog(null, "Os dados do usuário(a) foram atualizado com sucesso.");
+
+                        }
+
+                        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePathLogin))) {
+                            writer.write(gson.toJson(jsonArrayLogin));  // Sobrescreve o arquivo com o conteúdo atualizado
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Erro: Usuário(a) não encontrado.");
+                    }
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Erro ao editar os dados do usuário(a): ");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro: Todos os campos devem ser preenchidos.");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-         int linha = jTable1.getSelectedRow();
+        int linha = jTable1.getSelectedRow();
 
         //seta os inputs com o valor contido na linha e coluna selecionada
         jTextField1.setText(jTable1.getValueAt(linha, 0).toString());
         jTextField2.setText(jTable1.getValueAt(linha, 1).toString());
         jTextField3.setText(jTable1.getValueAt(linha, 2).toString());
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
 
     /**
      * @param args the command line arguments
