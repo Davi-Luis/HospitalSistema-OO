@@ -1,20 +1,30 @@
 package com.mycompany.sistemahospitaloo.View;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.mycompany.sistemahospitaloo.Arquivo;
+import com.mycompany.sistemahospitaloo.Paciente;
+import com.mycompany.sistemahospitaloo.Consulta;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import com.toedter.calendar.JCalendar;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import java.text.SimpleDateFormat;
 /**
  *
  * @author Taynara Ferraz
  */
 public class MarcarConsulta extends javax.swing.JFrame {
-
+    static Paciente paciente;
     /**
      * Creates new form MarcarConsulta
+     * @param paciente
      */
-    public MarcarConsulta() {
+    public MarcarConsulta(Paciente paciente) {
+        MarcarConsulta.paciente = paciente;
         initComponents();
         setLocationRelativeTo(null);
         carregarMedicos();
@@ -80,6 +90,8 @@ public class MarcarConsulta extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTextField2 = new javax.swing.JTextField();
+        jMenu1 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -93,6 +105,12 @@ public class MarcarConsulta extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jComboBox4 = new javax.swing.JComboBox<>();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+
+        jTextField2.setText("jTextField2");
+
+        jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -111,6 +129,11 @@ public class MarcarConsulta extends javax.swing.JFrame {
         jLabel4.setText("Plano de saúde:");
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Valor total da consulta:");
 
@@ -129,10 +152,23 @@ public class MarcarConsulta extends javax.swing.JFrame {
         });
 
         jButton2.setText("Clique aqui para escolher a data");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
-        jLabel6.setText("Horários disponíveis:");
+        jLabel6.setText("Escolha um horário:");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "7h", "7h30", "8h", "8h30", "9h", "9h30", "10h", "10h30", "11h", "11h30", "12h", "12h30", "13h", "13h30", "14h", "14h30", "15h", "15h30", "16h", "16h30", "17h", "17h30", "18h", "18h30", "19h" }));
+
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Data escolhida:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -150,18 +186,22 @@ public class MarcarConsulta extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel2)
-                                    .addComponent(jComboBox1, 0, 255, Short.MAX_VALUE)
+                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel3)
-                                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(68, 68, 68))
         );
@@ -178,6 +218,10 @@ public class MarcarConsulta extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -186,7 +230,7 @@ public class MarcarConsulta extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -200,11 +244,14 @@ public class MarcarConsulta extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -213,12 +260,112 @@ public class MarcarConsulta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        //marcar consulta
+        //fecha a tela em caso de cadastro bem sucedido
+        String id=null;
+        try {
+            // Carregar o arquivo JSON
+            String content = new String(Files.readAllBytes(Paths.get("src/main/resources/dadosCadastraisMedicos.json")));
+
+            // Usar JsonParser para ler o JSON
+            JsonElement jsonElement = JsonParser.parseString(content);
+            JsonArray jsonArray = jsonElement.getAsJsonArray();
+
+            // Iterar pelo JsonArray e adicionar o campo 'user' ao JComboBox
+            for (JsonElement element : jsonArray) {
+                JsonObject jsonObject = element.getAsJsonObject();
+        
+        // Verificar se o campo "user" no JSON corresponde ao userName desejado
+        if (jsonObject.get("user").getAsString().equals(jComboBox1.getSelectedItem())) {
+            id = jsonObject.get("id").getAsString();
+            break; // Interromper o loop após encontrar o id correspondente
+        }            }
+
+        } catch (JsonSyntaxException e) {
+            System.err.println("Erro de sintaxe no JSON: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        Consulta c = new Consulta(paciente.getUser(), jComboBox1.getSelectedItem().toString(), id,jTextField3.getText(), jComboBox4.getSelectedItem().toString(), jComboBox3.getSelectedItem().toString());
+        
+        Arquivo.adiciona("src/main/resources/horarioConsultas.json", c);
+
+        JOptionPane.showMessageDialog(this, "Consulta marcada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton1ActionPerformed
+public static Date removeTimeFromDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return sdf.parse(sdf.format(date));
+        } catch (Exception e) {
+            return null; // Caso haja erro, retorna null (não esperado)
+        }
+    }
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JCalendar calendar = new JCalendar();
+
+                // Criando um JOptionPane com o JCalendar
+                int option = JOptionPane.showOptionDialog(
+                        null, calendar, "Selecione a data",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+                // Se o usuário clicar em "OK"
+                if (option == JOptionPane.OK_OPTION) {
+                    Date selectedDate = calendar.getDate();
+                     Date currentDate = new Date(); // Obtendo a data atual
+                         currentDate = removeTimeFromDate(currentDate);
+                    // Verificar se a data escolhida é inferior à data atual
+                    if (selectedDate.before(currentDate)) {
+                       
+                        // Mostrar mensagem de erro se a data for inferior
+                        JOptionPane.showMessageDialog(
+                                null, "Erro: A data selecionada é anterior à data atual.", 
+                                "Data inválida", JOptionPane.ERROR_MESSAGE);
+                        
+                    } else {
+                    // Formatando a data para exibição
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    String formattedDate = sdf.format(selectedDate);
+
+                    //Exibir a data na caixa de texto
+                        jTextField3.setText(formattedDate);
+                    }
+
+                }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+
+        System.out.println("sdfsd");
+        String selectedItem = (String) jComboBox3.getSelectedItem();
+        if (selectedItem != null) { 
+        if(selectedItem.equals("Nenhum")) {
+        jTextField1.setText("R$200");
+        } 
+        else if(selectedItem.equals("Unimed")) {
+            jTextField1.setText("R$150");
+        } 
+        else if(selectedItem.equals("Amil")) {
+            jTextField1.setText("R$160");
+        } 
+        else if(selectedItem.equals("SulAmérica")) {
+            jTextField1.setText("R$170");
+        } 
+        else if(selectedItem.equals("Bradesco Saúde")) {
+            jTextField1.setText("R$180");
+        }
+        }
+        
+    }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -250,7 +397,7 @@ public class MarcarConsulta extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MarcarConsulta().setVisible(true);
+                new MarcarConsulta(paciente).setVisible(true);
             }
         });
     }
@@ -267,7 +414,11 @@ public class MarcarConsulta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

@@ -12,18 +12,18 @@ import com.mycompany.sistemahospitaloo.Usuario;
  * @author Taynara Ferraz
  */
 public class DashboardPaciente extends javax.swing.JFrame {
-    static Usuario user;
+    static Paciente paciente;
     /**
      * Creates new form DashboardPaciente
-     * @param user
+     * @param paciente
      */
-    public DashboardPaciente(Usuario user) {
-        this.user = user;
+    public DashboardPaciente(Paciente paciente) {
+        DashboardPaciente.paciente = paciente;
         initComponents();
         setLocationRelativeTo(null);
-        jTextField1.setText("Olá, " + user.getUser());
+        jTextField1.setText("Olá, " + paciente.getUser()+"!");
         jTextField1.setEditable(false);
-        System.out.println(user.getUser() + " " + user.getSenha()+ "aqui");
+        
     }
 
     /**
@@ -83,7 +83,6 @@ public class DashboardPaciente extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout.png"))); // NOI18N
         jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jTextField1.setText("jTextField1");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -143,12 +142,12 @@ public class DashboardPaciente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        VisualizarDadosPacientes dados = new VisualizarDadosPacientes(user);
+        VisualizarDadosPacientes dados = new VisualizarDadosPacientes(paciente);
         dados.setVisible(true);
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-        MarcarConsulta dados = new MarcarConsulta();
+        MarcarConsulta dados = new MarcarConsulta(paciente);
         dados.setVisible(true);
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
@@ -186,8 +185,8 @@ public class DashboardPaciente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                System.out.println(user.getUser() + " " + user.getSenha());
-                new DashboardPaciente(user).setVisible(true);
+                System.out.println(paciente.getUser() + " " + paciente.getSenha());
+                new DashboardPaciente(paciente).setVisible(true);
             }
         });
     }

@@ -11,11 +11,9 @@ import com.google.gson.JsonObject;
 import com.mycompany.sistemahospitaloo.Arquivo;
 import com.mycompany.sistemahospitaloo.Login;
 import com.mycompany.sistemahospitaloo.Medico;
-import com.mycompany.sistemahospitaloo.Paciente;
 import com.mycompany.sistemahospitaloo.Usuario;
 import com.mycompany.sistemahospitaloo.VerificaCRM;
 import java.io.FileReader;
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,10 +24,12 @@ import javax.swing.table.DefaultTableModel;
 public class GerenciamentoDosMedicos extends javax.swing.JFrame {
         
     Usuario user;
+    static int id;
     /**
      * Creates new form GerenciamentoDosMedicos
      */
     public GerenciamentoDosMedicos() {
+        this.id = 0;
         initComponents();
         carregaDados();
         setLocationRelativeTo(null);
@@ -280,8 +280,7 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
         }
         if(!VerificaCRM.verificaCRM(jTextField3.getText())){
               mostrarMensagemErro("CRM inválido. Por favor, tente novamente.");
-        jTextField3.setText(""); // Limpa o campo CPF
-        jTextField3.requestFocus(); // Foca no campo CPF
+        jTextField3.requestFocus(); 
         return false; // Sai do método
         }
         return true;
@@ -291,9 +290,12 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
        if(gerenciaMedico()){
         //fecha a tela em caso de cadastro bem sucedido
         JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-        
-        user = new Medico(jTextField2.getText(), jTextField3.getText(), jTextField1.getText(), jTextField4.getText(), 2);
-        
+        id++;
+        user = new Medico(jTextField2.getText(), jTextField3.getText(), jTextField1.getText(), jTextField4.getText(), String.valueOf(id));
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.addRow(new Object[]{jTextField1.getText(), jTextField4.getText(), jTextField2.getText(), jTextField3.getText()});
+
+
         Login login = new Login(jTextField1.getText(), jTextField4.getText());
         Arquivo.adiciona("src/main/resources/loginMedicos.json", login);
         Arquivo.adiciona("src/main/resources/dadosCadastraisMedicos.json", user);
