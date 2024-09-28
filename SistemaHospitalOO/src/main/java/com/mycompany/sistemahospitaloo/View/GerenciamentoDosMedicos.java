@@ -5,17 +5,18 @@
 package com.mycompany.sistemahospitaloo.View;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mycompany.sistemahospitaloo.Arquivo;
 import com.mycompany.sistemahospitaloo.Login;
 import com.mycompany.sistemahospitaloo.Medico;
-import com.mycompany.sistemahospitaloo.Paciente;
 import com.mycompany.sistemahospitaloo.Usuario;
 import com.mycompany.sistemahospitaloo.VerificaCRM;
+import java.io.BufferedWriter;
 import java.io.FileReader;
-import javax.swing.JFormattedTextField;
+import java.io.FileWriter;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,8 +25,9 @@ import javax.swing.table.DefaultTableModel;
  * @author Taynara Ferraz
  */
 public class GerenciamentoDosMedicos extends javax.swing.JFrame {
-        
+
     Usuario user;
+
     /**
      * Creates new form GerenciamentoDosMedicos
      */
@@ -34,10 +36,10 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
         carregaDados();
         setLocationRelativeTo(null);
     }
-    
-    private void carregaDados(){
+
+    private void carregaDados() {
         String filePath = "src/main/resources/dadosCadastraisMedicos.json";
-        
+
         try {
             Gson gson = new Gson();
             FileReader reader = new FileReader(filePath);
@@ -51,7 +53,7 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
                 JsonObject obj = element.getAsJsonObject();
 
                 String nome = obj.has("user") ? obj.get("user").getAsString() : null;
-                String senha  = obj.has("senha") ? obj.get("senha").getAsString() : null;
+                String senha = obj.has("senha") ? obj.get("senha").getAsString() : null;
                 String especialidade = obj.has("especialidade") ? obj.get("especialidade").getAsString() : null;
                 String numCrm = obj.has("numeroCRM") ? obj.get("numeroCRM").getAsString() : null;
 
@@ -127,6 +129,11 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
         });
 
         jButton3.setText("Excluir");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel4.setText("Médicos");
@@ -214,11 +221,16 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -227,7 +239,9 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,7 +255,8 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,35 +276,124 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void mostrarMensagemErro(String mensagem) {
-    JOptionPane.showMessageDialog(this, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
-}
+        JOptionPane.showMessageDialog(this, mensagem, "Erro", JOptionPane.ERROR_MESSAGE);
+    }
 
-    
-    private boolean gerenciaMedico(){
-        if(!VerificaCRM.verificaCRM(jTextField3.getText())){
-              mostrarMensagemErro("CRM inválido. Por favor, tente novamente.");
-        jTextField3.setText(""); // Limpa o campo CPF
-        jTextField3.requestFocus(); // Foca no campo CPF
-        return false; // Sai do método
+    private boolean gerenciaMedico() {
+        if (!VerificaCRM.verificaCRM(jTextField3.getText())) {
+            mostrarMensagemErro("CRM inválido. Por favor, tente novamente.");
+            //jTextField3.setText(""); // Limpa o campo CPF
+            //jTextField3.requestFocus(); // Foca no campo CPF
+            return false; // Sai do método
         }
         return true;
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-       if(gerenciaMedico()){
-        //fecha a tela em caso de cadastro bem sucedido
-        JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-        dispose();
-        user = new Medico(jTextField2.getText(), jTextField3.getText(), jTextField1.getText(), jTextField4.getText(), 2);
-        
-        Login login = new Login(jTextField1.getText(), jTextField4.getText());
-        Arquivo.adiciona("src/main/resources/loginMedicos.json", login);
-        Arquivo.adiciona("src/main/resources/dadosCadastraisMedicos.json", user);
-    }
+        if (gerenciaMedico()) {
+            //fecha a tela em caso de cadastro bem sucedido
+            JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            user = new Medico(jTextField2.getText(), jTextField3.getText(), jTextField1.getText(), jTextField4.getText(), 2);
+            Arquivo.adiciona("src/main/resources/dadosCadastraisMedicos.json", user);
+            Login login = new Login(jTextField1.getText(), jTextField4.getText());
+            Arquivo.adiciona("src/main/resources/loginMedicos.json", login);
+
+            carregaDados();
+            jTextField1.setText(null);
+            jTextField2.setText(null);
+            jTextField3.setText(null);
+            jTextField4.setText(null);
+
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        boolean medicoEncontrado = false;
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+            String novoNome = jTextField1.getText();
+            String novaSenha = jTextField4.getText();
+            String novaEspecialidade = jTextField2.getText();
+            String novoCrm = jTextField3.getText();
+
+            if (novoNome != null && !novoNome.trim().isEmpty() && novaSenha != null && !novaSenha.trim().isEmpty()
+                    && novaEspecialidade != null && !novaEspecialidade.trim().isEmpty() && novoCrm != null && !novoCrm.trim().isEmpty()) {
+
+                if (!gerenciaMedico()) {
+                    return;
+                }
+
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                String nomeAntigo = model.getValueAt(selectedRow, 0).toString();
+                String senhaAntiga = model.getValueAt(selectedRow, 1).toString();
+                String especialidadeAntiga = model.getValueAt(selectedRow, 2).toString();
+                String crmAntigo = model.getValueAt(selectedRow, 3).toString();
+
+                // Atualiza o arquivo JSON
+                String filePath = "src/main/resources/dadosCadastraisMedicos.json";
+                String filePathLogin = "src/main/resources/loginMedicos.json";
+                try {
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();  // Mantém a formatação JSON
+                    FileReader reader = new FileReader(filePath);
+                    FileReader readerLogin = new FileReader(filePathLogin);
+                    JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
+                    JsonArray jsonArrayLogin = gson.fromJson(readerLogin, JsonArray.class);
+                    reader.close();
+                    readerLogin.close();
+
+                    // Percorre o JSON procurando pelo nome antigo e atualiza o nome
+                    for (JsonElement element : jsonArray) {
+                        JsonObject obj = element.getAsJsonObject();
+                        if (obj.get("user").getAsString().equals(nomeAntigo) && obj.get("senha").getAsString().equals(senhaAntiga)
+                                && obj.get("especialidade").getAsString().equals(especialidadeAntiga) && obj.get("numeroCRM").getAsString().equals(crmAntigo)) {
+                            obj.addProperty("user", novoNome);  // Atualiza o JSON com o novo nome
+                            obj.addProperty("senha", novaSenha);
+                            obj.addProperty("especialidade", novaEspecialidade);
+                            obj.addProperty("numeroCRM", novoCrm);
+
+                            model.setValueAt(novoNome, selectedRow, 0);  // Atualiza a tabela
+                            model.setValueAt(novaSenha, selectedRow, 1);
+                            model.setValueAt(novaEspecialidade, selectedRow, 2);
+                            model.setValueAt(novoCrm, selectedRow, 3);
+
+                            medicoEncontrado = true;
+                            break;
+                        }
+
+                    }
+
+                    for (int i = 0; i < jsonArrayLogin.size(); i++) {
+                        JsonObject obj1 = jsonArrayLogin.get(i).getAsJsonObject();
+                        if (obj1.get("user").getAsString().equals(nomeAntigo) && obj1.get("senha").getAsString().equals(senhaAntiga)) {
+                            obj1.addProperty("user", novoNome);  // Atualiza o JSON com o novo nome
+                            obj1.addProperty("senha", novaSenha);
+                            break;  // Sai do loop após encontrar e remover
+                        }
+                    }
+
+                    // Salvar as alterações de volta no arquivo JSON
+                    if (medicoEncontrado) {
+                        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                            writer.write(gson.toJson(jsonArray));  // Sobrescreve o arquivo com o conteúdo atualizado
+                            JOptionPane.showMessageDialog(null, "Os dados do médico(a) foram atualizado com sucesso.");
+
+                        }
+
+                        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePathLogin))) {
+                            writer.write(gson.toJson(jsonArrayLogin));  // Sobrescreve o arquivo com o conteúdo atualizado
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Erro: Médico(a) não encontrado.");
+                    }
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Erro ao editar os dados do médico(a): ");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro: Todos os campos devem ser preenchidos.");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
@@ -299,6 +403,84 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int linha = jTable1.getSelectedRow();
+
+        //seta os inputs com o valor contido na linha e coluna selecionada
+        jTextField1.setText(jTable1.getValueAt(linha, 0).toString());
+        jTextField4.setText(jTable1.getValueAt(linha, 1).toString());
+        jTextField2.setText(jTable1.getValueAt(linha, 2).toString());
+        jTextField3.setText(jTable1.getValueAt(linha, 3).toString());
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+            int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir este médico(a)?", "Confirmar Exclusão", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                String nomeParaExcluir = model.getValueAt(selectedRow, 0).toString();
+                String senhaParaExcluir = model.getValueAt(selectedRow, 1).toString();
+                String espParaExcluir = model.getValueAt(selectedRow, 2).toString();
+                String crmParaExcluir = model.getValueAt(selectedRow, 3).toString();
+
+                // Atualiza o arquivo JSON
+                String filePath = "src/main/resources/dadosCadastraisMedicos.json";
+                String filePathLogin = "src/main/resources/loginMedicos.json";
+                try {
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();  // Mantém a formatação JSON
+                    FileReader reader = new FileReader(filePath);
+                    FileReader readerLogin = new FileReader(filePathLogin);
+                    JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
+                    JsonArray jsonArrayLogin = gson.fromJson(readerLogin, JsonArray.class);
+                    reader.close();
+                    readerLogin.close();
+
+                    // Remove o objeto do JSON com o nome correspondente
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        JsonObject obj = jsonArray.get(i).getAsJsonObject();
+                        if (obj.get("user").getAsString().equals(nomeParaExcluir) && obj.get("senha").getAsString().equals(senhaParaExcluir)
+                                && obj.get("especialidade").getAsString().equals(espParaExcluir) && obj.get("numeroCRM").getAsString().equals(crmParaExcluir)) {
+                            jsonArray.remove(i);  // Remove o objeto do JSON
+                            break;  // Sai do loop após encontrar e remover
+                        }
+                    }
+
+                    for (int i = 0; i < jsonArrayLogin.size(); i++) {
+                        JsonObject obj1 = jsonArrayLogin.get(i).getAsJsonObject();
+                        if (obj1.get("user").getAsString().equals(nomeParaExcluir) && obj1.get("senha").getAsString().equals(senhaParaExcluir)) {
+                            jsonArrayLogin.remove(i);  // Remove o objeto do JSON
+                            break;  // Sai do loop após encontrar e remover
+                        }
+                    }
+
+                    model.removeRow(selectedRow);
+                    jTextField1.setText(null);
+                    jTextField4.setText(null);
+                    jTextField2.setText(null);
+                    jTextField3.setText(null);
+
+                    // Salvar as alterações de volta no arquivo JSON
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                        writer.write(gson.toJson(jsonArray));  // Sobrescreve o arquivo com o conteúdo atualizado
+                    }
+
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePathLogin))) {
+                        writer.write(gson.toJson(jsonArrayLogin));  // Sobrescreve o arquivo com o conteúdo atualizado
+                    }
+
+                    JOptionPane.showMessageDialog(null, "Médico(a) excluído(a) com sucesso.");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Erro ao excluir o(a) médico(a) ");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecione um(a) médico(a) para excluir.");
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -4,18 +4,74 @@
  */
 package com.mycompany.sistemahospitaloo.View;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mycompany.sistemahospitaloo.Medico;
+import com.mycompany.sistemahospitaloo.Usuario;
+import java.io.FileReader;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Taynara Ferraz
  */
 public class VisualizaDadosMedico extends javax.swing.JFrame {
 
+    static Usuario user;
+    static Medico medico;
+
     /**
      * Creates new form VisualizaDadosMedico
      */
-    public VisualizaDadosMedico() {
+    public VisualizaDadosMedico(Usuario user) {
+        this.user = user;
         initComponents();
+        carregaDados();
         setLocationRelativeTo(null);
+    }
+
+    private void carregaDados() {
+        String filePath = "src/main/resources/dadosCadastraisMedicos.json";
+
+        try {
+            Gson gson = new Gson();
+            FileReader reader = new FileReader(filePath);
+            JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
+            String nome = null, especialidade = null, crm = null, senha = null;
+
+            for (JsonElement element : jsonArray) {
+                JsonObject obj = element.getAsJsonObject();
+
+                if ( obj.has("user") && obj.has("senha") && obj.get("user").getAsString().equals(user.getUser()) 
+                        && obj.get("senha").getAsString().equals(user.getSenha())) {
+                    
+                    nome = obj.has("user") ? obj.get("user").getAsString() : null;
+                    especialidade = obj.has("especialidade") ? obj.get("especialidade").getAsString() : null;
+                    crm = obj.has("numeroCRM") ? obj.get("numeroCRM").getAsString() : null;
+                    senha = obj.has("senha") ? obj.get("senha").getAsString() : null;
+                    
+                    break;
+                }
+                
+            }
+
+            jTextField1.setText(nome);
+            jTextField2.setText(especialidade);
+            jTextField3.setText(crm);
+            jTextField1.setEditable(false);
+            jTextField2.setEditable(false);
+            jTextField3.setEditable(false);
+            
+            jTextField1.setFocusable(false);
+            jTextField2.setFocusable(false);
+            jTextField3.setFocusable(false);
+
+            reader.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar o arquivo JSON: " + e.getMessage());
+        }
     }
 
     /**
@@ -88,13 +144,13 @@ public class VisualizaDadosMedico extends javax.swing.JFrame {
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(jLabel3)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -145,7 +201,7 @@ public class VisualizaDadosMedico extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VisualizaDadosMedico().setVisible(true);
+                new VisualizaDadosMedico(user).setVisible(true);
             }
         });
     }

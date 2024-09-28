@@ -207,7 +207,7 @@ public class ViewLogin extends javax.swing.JFrame {
             novo.setVisible(true);
         }
         else if(verificaLogin(jTextField1.getText(), senhaString, "src/main/resources/loginMedicos.json")){
-            DashboardMedico novo = new DashboardMedico(user.getUser());
+            DashboardMedico novo = new DashboardMedico(user);
             novo.setVisible(true);
         }
         else if(verificaLogin(jTextField1.getText(), senhaString, "src/main/resources/loginPacientes.json")){

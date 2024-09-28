@@ -48,7 +48,7 @@ public class DashboardAdm extends javax.swing.JFrame {
 
         jToggleButton1.setBackground(new java.awt.Color(204, 204, 255));
         jToggleButton1.setForeground(new java.awt.Color(0, 0, 102));
-        jToggleButton1.setText("Grenciamento de médicos");
+        jToggleButton1.setText("Gerenciamento de médicos");
         jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -58,7 +58,7 @@ public class DashboardAdm extends javax.swing.JFrame {
 
         jToggleButton2.setBackground(new java.awt.Color(204, 204, 255));
         jToggleButton2.setForeground(new java.awt.Color(0, 0, 102));
-        jToggleButton2.setText("Grenciamento de planos de saúde");
+        jToggleButton2.setText("Gerenciamento de planos de saúde");
         jToggleButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -68,7 +68,7 @@ public class DashboardAdm extends javax.swing.JFrame {
 
         jToggleButton3.setBackground(new java.awt.Color(204, 204, 255));
         jToggleButton3.setForeground(new java.awt.Color(0, 0, 102));
-        jToggleButton3.setText("Geenciamento de pacientes");
+        jToggleButton3.setText("Gerenciamento de pacientes");
         jToggleButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,7 +107,7 @@ public class DashboardAdm extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addComponent(jToggleButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                         .addComponent(jToggleButton1)
                         .addGap(47, 47, 47)))
                 .addGap(35, 35, 35))

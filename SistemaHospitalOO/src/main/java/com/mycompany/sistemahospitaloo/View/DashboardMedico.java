@@ -4,19 +4,23 @@
  */
 package com.mycompany.sistemahospitaloo.View;
 
+import com.mycompany.sistemahospitaloo.Medico;
+import com.mycompany.sistemahospitaloo.Usuario;
+
 /**
  *
  * @author Taynara Ferraz
  */
 public class DashboardMedico extends javax.swing.JFrame {
-
+    static Usuario user;
     /**
      * Creates new form DashboardMedico
      */
-    public DashboardMedico(String nome) {
+    public DashboardMedico(Usuario user) {
+        this.user = user;
         initComponents();
         setLocationRelativeTo(null);
-        jTextField1.setText("Olá, " + nome);
+        jTextField1.setText("Olá, medico(a) " + user.getUser());
         jTextField1.setEditable(false);
     }
 
@@ -128,7 +132,7 @@ public class DashboardMedico extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        VisualizaDadosMedico novo = new VisualizaDadosMedico();
+        VisualizaDadosMedico novo = new VisualizaDadosMedico(user);
         novo.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -171,8 +175,7 @@ public class DashboardMedico extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                String nome = null;
-                new DashboardMedico(nome).setVisible(true);
+                new DashboardMedico(user).setVisible(true);
             }
         });
     }

@@ -8,8 +8,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mycompany.sistemahospitaloo.VerificaCPF;
+import com.mycompany.sistemahospitaloo.VerificaCartaoSUS;
 import java.io.FileReader;
 import java.util.Vector;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -42,9 +45,9 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
             for (JsonElement element : jsonArray) {
                 JsonObject obj = element.getAsJsonObject();
 
-                String nome = obj.has("user") ? obj.get("user").getAsString() : "N/A";
+                String nome = obj.has("user") ? obj.get("user").getAsString() : null;
                 String num  = obj.has("numeroCartaoSUS") ? obj.get("numeroCartaoSUS").getAsString() : null;
-                String cpf = obj.has("cpf") ? obj.get("cpf").getAsString() : "N/A";
+                String cpf = obj.has("cpf") ? obj.get("cpf").getAsString() : null;
 
                 model.addRow(new Object[]{nome, num, cpf});
             }
@@ -187,7 +190,20 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
             new String [] {
                 "Nome", "Número do SUS", "CPF"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -233,7 +249,45 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        //edit
+        JFrame tela = new JFrame();
+        int linha = jTable1.getSelectedRow();
+
+       // try {
+
+            boolean testeCpf = VerificaCPF.verificaCPF(jTextField3.getText());
+            boolean testeSus = VerificaCartaoSUS.verificaSUS(jTextField2.getText());
+            
+            
+            
+           /* lista.get(linha).setNome(jTextField1.getText());
+            lista.get(linha).setCpf(teste);
+            lista.get(linha).setBirthDate(nova);
+
+            DefaultTableModel modeloTabela = (DefaultTableModel) jTable3.getModel();
+            modeloTabela.setValueAt(lista.get(linha).getNome(), linha, 0);
+            modeloTabela.setValueAt(lista.get(linha).getCpf(), linha, 1);
+            modeloTabela.setValueAt(lista.get(linha).getBirhDateString(), linha, 3);
+
+            jTextField1.setText(null);
+            jFormattedTextField1.setText(null);
+            jFormattedTextField2.setText(null);
+        } catch (CpfException e) {
+            JOptionPane.showMessageDialog(tela, "O cpf  é invalido!");
+        } catch(DataException e){
+            JOptionPane.showMessageDialog(tela, "A data  é invalido!");
+        }*/
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+         int linha = jTable1.getSelectedRow();
+
+        //seta os inputs com o valor contido na linha e coluna selecionada
+        jTextField1.setText(jTable1.getValueAt(linha, 0).toString());
+        jTextField2.setText(jTable1.getValueAt(linha, 1).toString());
+        jTextField3.setText(jTable1.getValueAt(linha, 2).toString());
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
