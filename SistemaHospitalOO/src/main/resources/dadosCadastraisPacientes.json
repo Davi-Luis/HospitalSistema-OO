@@ -3,6 +3,64 @@
     "numeroCartaoSUS": "785488899999000",
     "user": "Eliana Aparecida Carlos Ferraz",
     "senha": "elianaapferraz",
-    "cpf": "056.628.136-80"
+    "cpf": "056.628.136-80",
+    "numeroCartaoSUS": "111111111111111",
+    "user": "taynara",
+    "senha": "12123",
+    "cpf": "114.185.566-61"
+  },
+  {
+    "numeroCartaoSUS": "555555555555555",
+    "user": "taynara",
+    "senha": "teste123",
+    "cpf": "114.185.566-61"
+  },
+  {
+    "numeroCartaoSUS": "               ",
+    "user": "21",
+    "senha": "1",
+    "cpf": "212.123.121-32"
+  },
+  {
+    "numeroCartaoSUS": "               ",
+    "user": "21",
+    "senha": "1",
+    "cpf": "212.123.121-32"
+  },
+  {
+    "numeroCartaoSUS": "546546546546546",
+    "user": "gfh",
+    "senha": "oi",
+    "cpf": "123.456.789-09"
+  },
+  {
+    "numeroCartaoSUS": "546546546546546",
+    "user": "gfh",
+    "senha": "oi",
+    "cpf": "123.456.789-09"
+  },
+  {
+    "numeroCartaoSUS": "111111111111111",
+    "user": "davi",
+    "senha": "certo",
+    "cpf": "123.456.789-09"
+  },
+  {
+    "numeroCartaoSUS": "111111111111111",
+    "user": "davi",
+    "senha": "certo",
+    "cpf": "123.456.789-09"
+  },
+  {
+    "numeroCartaoSUS": "111111111111111",
+    "user": "davi certo",
+    "senha": "aa",
+    "cpf": "123.456.789-09"
+  },
+  {
+    "numeroCartaoSUS": "111111111111111",
+    "user": "pac",
+    "senha": "123",
+    "cpf": "123.456.789-09"
   }
 ]

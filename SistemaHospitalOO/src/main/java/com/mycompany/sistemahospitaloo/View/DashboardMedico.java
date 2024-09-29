@@ -7,6 +7,14 @@ package com.mycompany.sistemahospitaloo.View;
 import com.mycompany.sistemahospitaloo.Medico;
 import com.mycompany.sistemahospitaloo.Usuario;
 
+import com.mycompany.sistemahospitaloo.Medico;
+import com.mycompany.sistemahospitaloo.Usuario;
+import java.io.FileReader;
+import java.io.IOException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 /**
  *
  * @author Taynara Ferraz
@@ -15,9 +23,11 @@ public class DashboardMedico extends javax.swing.JFrame {
     static Usuario user;
     /**
      * Creates new form DashboardMedico
+     * @param user
      */
     public DashboardMedico(Usuario user) {
         this.user = user;
+        DashboardMedico.user = user;
         initComponents();
         setLocationRelativeTo(null);
         jTextField1.setText("Olá, medico(a) " + user.getUser());
@@ -135,9 +145,43 @@ public class DashboardMedico extends javax.swing.JFrame {
         VisualizaDadosMedico novo = new VisualizaDadosMedico(user);
         novo.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+public Medico retornaMedico(String username, String password, String filepath){
+        // Instancia um parser para ler o arquivo JSON
+        JSONParser parser = new JSONParser();
 
+        try {
+            // Carrega o arquivo JSON
+            JSONArray loginsArray = (JSONArray) parser.parse(new FileReader(filepath));
+
+            // Percorre a lista de pacientes
+            for (Object loginObj : loginsArray) {
+                JSONObject loginData = (JSONObject) loginObj;
+
+                // Pega os dados do JSON
+                String usuario = (String) loginData.get("user");
+                String senha = (String) loginData.get("senha");
+
+                // Verifica se o username e senha correspondem
+                if (usuario.equals(username) && senha.equals(password)) {
+                    // Cria e retorna o objeto Paciente com todos os dados
+                    return new Medico((String) loginData.get("especialidade"), 
+                            (String) loginData.get("numeroCRM"), 
+                            (String) loginData.get("user"), 
+                            (String) loginData.get("senha"), 
+                            (String) loginData.get("id"));
+                }
+            }
+        } catch (IOException | ParseException e) {
+            // Trata exceções de IO ou parsing
+            System.out.println("Erro ao processar o arquivo JSON: " + e.getMessage());
+        }
+
+        // Retorna null se o paciente não for encontrado
+        return null;
+    }
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        VisualizaConsultasMarcadas novo = new VisualizaConsultasMarcadas();
+        Medico medico = retornaMedico(user.getUser(), user.getSenha(), "src/main/resources/dadosCadastraisMedicos.json");
+        VisualizaConsultasMarcadas novo = new VisualizaConsultasMarcadas(medico);
         novo.setVisible(true);
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
@@ -175,6 +219,7 @@ public class DashboardMedico extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                String nome = null;
                 new DashboardMedico(user).setVisible(true);
             }
         });

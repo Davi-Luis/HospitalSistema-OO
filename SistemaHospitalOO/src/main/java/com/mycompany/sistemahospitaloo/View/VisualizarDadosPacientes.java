@@ -12,18 +12,26 @@ import com.mycompany.sistemahospitaloo.Usuario;
  * @author Taynara Ferraz
  */
 public class VisualizarDadosPacientes extends javax.swing.JFrame {
-        static Usuario user;
+        static Paciente paciente;
     /**
      * Creates new form VisualizarDadosPacientes
-     * @param user
+     * @param paciente
      */
-    public VisualizarDadosPacientes(Usuario user) {
-        this.user = user;
+    public VisualizarDadosPacientes(Paciente paciente) {
+        VisualizarDadosPacientes.paciente = paciente;
         initComponents();
-        System.out.println(user.getUser() + " " + user.getSenha() + "novo");
-        jTextField1.setText(user.getUser());
+
+        jTextField1.setText(paciente.getUser());
         setLocationRelativeTo(null);
         jTextField1.setEditable(false);
+        
+        jTextField2.setText(paciente.getNumeroCartaoSUS());
+        setLocationRelativeTo(null);
+        jTextField2.setEditable(false);
+        
+        jTextField3.setText(paciente.getCpf());
+        setLocationRelativeTo(null);
+        jTextField3.setEditable(false);
     }
 
     /**
@@ -172,7 +180,7 @@ public class VisualizarDadosPacientes extends javax.swing.JFrame {
         /* Create and display the form */
        java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VisualizarDadosPacientes(user).setVisible(true);
+                new VisualizarDadosPacientes(paciente).setVisible(true);
             }
         });
     }

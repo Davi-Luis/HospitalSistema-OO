@@ -4,17 +4,32 @@
  */
 package com.mycompany.sistemahospitaloo.View;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mycompany.sistemahospitaloo.Medico;
+import java.io.FileReader;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Taynara Ferraz
  */
 public class VisualizaConsultasMarcadas extends javax.swing.JFrame {
+    static Medico medico;
 
     /**
      * Creates new form VisualizaConsultasMarcadas
+     * @param medico
      */
-    public VisualizaConsultasMarcadas() {
+    public VisualizaConsultasMarcadas(Medico medico) {
+        if (medico == null) {
+        throw new IllegalArgumentException("O objeto Medico não pode ser null");
+        }
+        VisualizaConsultasMarcadas.medico = medico;
         initComponents();
+        carregaConsultas();
         setLocationRelativeTo(null);
     }
 
@@ -45,7 +60,7 @@ public class VisualizaConsultasMarcadas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Paciente", "Horário"
+                "Paciente", "Data", "Horário", "Plano"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -86,6 +101,38 @@ public class VisualizaConsultasMarcadas extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    private void carregaConsultas() {
+        String filePath = "src/main/resources/horarioConsultas.json";
+        try {
+            Gson gson = new Gson();
+            FileReader reader = new FileReader(filePath);
+            JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
+            String paciente = null, data = null, hora = null, plano = null;
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    model.setRowCount(0);
+            for (JsonElement element : jsonArray) {
+                
+                JsonObject obj = element.getAsJsonObject();
+                if ( obj.has("medico") && obj.get("medico").getAsString().equals(medico.getUser()) 
+                        && obj.get("idMedico").getAsString().equals(medico.getId()) ) {
+                    
+                    paciente = obj.has("paciente") ? obj.get("paciente").getAsString() : null;
+                    data = obj.has("data") ? obj.get("data").getAsString() : null;
+                    hora = obj.has("hora") ? obj.get("hora").getAsString() : null;
+                    plano = obj.has("plano") ? obj.get("plano").getAsString() : null;
+                    
+                    
+                    model.addRow(new Object[]{paciente, data, hora, plano});
+
+                }
+                
+            }
+            
+            reader.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar o arquivo JSON: " + e.getMessage());
+        }
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -113,9 +160,10 @@ public class VisualizaConsultasMarcadas extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VisualizaConsultasMarcadas().setVisible(true);
+                new VisualizaConsultasMarcadas(medico).setVisible(true);
             }
         });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

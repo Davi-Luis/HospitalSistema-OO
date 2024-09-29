@@ -6,24 +6,25 @@ package com.mycompany.sistemahospitaloo.View;
 
 import com.mycompany.sistemahospitaloo.Paciente;
 import com.mycompany.sistemahospitaloo.Usuario;
+import static com.mycompany.sistemahospitaloo.View.DashboardMedico.user;
 
 /**
  *
  * @author Taynara Ferraz
  */
 public class DashboardPaciente extends javax.swing.JFrame {
-    static Usuario user;
+    static Paciente paciente;
     /**
      * Creates new form DashboardPaciente
-     * @param user
+     * @param paciente
      */
-    public DashboardPaciente(Usuario user) {
-        this.user = user;
+    public DashboardPaciente(Paciente paciente) {
+        DashboardPaciente.paciente = paciente;
         initComponents();
         setLocationRelativeTo(null);
-        jTextField1.setText("Olá, " + user.getUser());
+        jTextField1.setText("Olá, " + paciente.getUser()+"!");
         jTextField1.setEditable(false);
-        System.out.println(user.getUser() + " " + user.getSenha()+ "aqui");
+        
     }
 
     /**
@@ -35,12 +36,21 @@ public class DashboardPaciente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jToggleButton1 = new javax.swing.JToggleButton();
         jToggleButton2 = new javax.swing.JToggleButton();
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,7 +84,6 @@ public class DashboardPaciente extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout.png"))); // NOI18N
         jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jTextField1.setText("jTextField1");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -134,12 +143,12 @@ public class DashboardPaciente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        VisualizarDadosPacientes dados = new VisualizarDadosPacientes(user);
+        VisualizarDadosPacientes dados = new VisualizarDadosPacientes(paciente);
         dados.setVisible(true);
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-        MarcarConsulta dados = new MarcarConsulta();
+        MarcarConsulta dados = new MarcarConsulta(paciente);
         dados.setVisible(true);
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
@@ -177,7 +186,9 @@ public class DashboardPaciente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DashboardPaciente(user).setVisible(true);
+                new DashboardPaciente(paciente).setVisible(true);
+                System.out.println(paciente.getUser() + " " + paciente.getSenha());
+                new DashboardPaciente(paciente).setVisible(true);
             }
         });
     }
@@ -185,7 +196,9 @@ public class DashboardPaciente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;

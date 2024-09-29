@@ -28,10 +28,12 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
 
     Usuario user;
 
+    static int id;
     /**
      * Creates new form GerenciamentoDosMedicos
      */
     public GerenciamentoDosMedicos() {
+        this.id = 0;
         initComponents();
         carregaDados();
         setLocationRelativeTo(null);
@@ -291,27 +293,26 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
             //jTextField3.setText(""); // Limpa o campo CPF
             //jTextField3.requestFocus(); // Foca no campo CPF
             return false; // Sai do método
-        }
+        }   
         return true;
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if (gerenciaMedico()) {
-            //fecha a tela em caso de cadastro bem sucedido
-            JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            user = new Medico(jTextField2.getText(), jTextField3.getText(), jTextField1.getText(), jTextField4.getText(), 2);
-            Arquivo.adiciona("src/main/resources/dadosCadastraisMedicos.json", user);
-            Login login = new Login(jTextField1.getText(), jTextField4.getText());
-            Arquivo.adiciona("src/main/resources/loginMedicos.json", login);
+        
+       if(gerenciaMedico()){
+        //fecha a tela em caso de cadastro bem sucedido
+        JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        id++;
+        user = new Medico(jTextField2.getText(), jTextField3.getText(), jTextField1.getText(), jTextField4.getText(), String.valueOf(id));
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.addRow(new Object[]{jTextField1.getText(), jTextField4.getText(), jTextField2.getText(), jTextField3.getText()});
 
-            carregaDados();
-            jTextField1.setText(null);
-            jTextField2.setText(null);
-            jTextField3.setText(null);
-            jTextField4.setText(null);
 
-        }
+        Login login = new Login(jTextField1.getText(), jTextField4.getText());
+        Arquivo.adiciona("src/main/resources/loginMedicos.json", login);
+        Arquivo.adiciona("src/main/resources/dadosCadastraisMedicos.json", user);
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
