@@ -34,11 +34,6 @@
     "senha": "123458novo"
   },
   {
-    "especialidade": "pediatra",
-    "numeroCRM": "12345/mg",
-    "id": 1.0,
-    "user": "novonovo",
-    "senha": "123456",
     "especialidade": "Dermatologista",
     "numeroCRM": "1784324/MG",
     "id": "3",
@@ -46,11 +41,6 @@
     "senha": "123"
   },
   {
-    "especialidade": "pediatra",
-    "numeroCRM": "123/mg",
-    "id": 1,
-    "user": "eliana ferraz",
-    "senha": "123123",
     "especialidade": "Cardiologista",
     "numeroCRM": "5346/PE",
     "id": "4",
@@ -77,5 +67,12 @@
     "id": "7",
     "user": "Fernanda Montenegro",
     "senha": "123"
+  },
+  {
+    "especialidade": "teste",
+    "numeroCRM": "12345/mg",
+    "id": "1",
+    "user": "teste novo",
+    "senha": "123456"
   }
 ]

@@ -24,8 +24,6 @@
     "senha": "123456"
   },
   {
-    "user": "eliana ferraz",
-    "senha": "123123",
     "user": "asdjkad",
     "senha": "adsdsa"
   },
@@ -132,5 +130,9 @@
   {
     "user": "Fernanda Montenegro",
     "senha": "123"
+  },
+  {
+    "user": "teste novo",
+    "senha": "123456"
   }
 ]
