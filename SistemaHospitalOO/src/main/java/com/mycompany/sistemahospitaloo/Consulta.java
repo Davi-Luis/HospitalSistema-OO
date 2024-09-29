@@ -26,4 +26,18 @@ public class Consulta {
         this.plano = plano;
     }
 
+    public String getMedico() {
+        return medico;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+    
+    
+
 }

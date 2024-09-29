@@ -262,7 +262,35 @@ public class MarcarConsulta extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         
     }//GEN-LAST:event_jTextField1ActionPerformed
+private boolean verificaConsulta(Consulta c){
+    try {
+        // Carregar o arquivo JSON que contém as consultas existentes
+        String content = new String(Files.readAllBytes(Paths.get("src/main/resources/horarioConsultas.json")));
+        
+        // Usar JsonParser para ler o JSON
+        JsonElement jsonElement = JsonParser.parseString(content);
+        JsonArray consultasArray = jsonElement.getAsJsonArray();
 
+        // Iterar pelas consultas já marcadas
+        for (JsonElement element : consultasArray) {
+            JsonObject consultaObj = element.getAsJsonObject();
+            String medicoConsulta = consultaObj.get("medico").getAsString();
+            String dataConsulta = consultaObj.get("data").getAsString();
+            String horarioConsulta = consultaObj.get("hora").getAsString();
+
+            // Verificar se o médico, data e horário coincidem
+            if (c.getMedico().equals(medicoConsulta) && c.getData().equals(dataConsulta) && c.getHora().equals(horarioConsulta)) {
+                JOptionPane.showMessageDialog(this, "Já existe uma consulta marcada para esse médico, data e horário.");
+                return false; // Consulta já existe
+            }
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    
+    return true; // Consulta não existe, pode prosseguir
+}
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //marcar consulta
         //fecha a tela em caso de cadastro bem sucedido
@@ -292,10 +320,11 @@ public class MarcarConsulta extends javax.swing.JFrame {
         }
         
         Consulta c = new Consulta(paciente.getUser(), jComboBox1.getSelectedItem().toString(), id,jTextField3.getText(), jComboBox4.getSelectedItem().toString(), jComboBox3.getSelectedItem().toString());
-        
+        if(verificaConsulta(c)){
         Arquivo.adiciona("src/main/resources/horarioConsultas.json", c);
 
-        JOptionPane.showMessageDialog(this, "Consulta marcada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+      JOptionPane.showMessageDialog(this, "Consulta marcada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 public static Date removeTimeFromDate(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -341,7 +370,7 @@ public static Date removeTimeFromDate(Date date) {
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
 
-        System.out.println("sdfsd");
+        
         String selectedItem = (String) jComboBox3.getSelectedItem();
         if (selectedItem != null) { 
         if(selectedItem.equals("Nenhum")) {
