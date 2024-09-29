@@ -42,4 +42,9 @@ public class Medico extends Funcionario {
     public void realizarConsulta() {
         System.out.println("Médico realizando consulta.");
     }
+    
+    @Override
+    public  String mensagemSaida() {
+        return "Logout do medico realizado com sucesso";
+    }
 }

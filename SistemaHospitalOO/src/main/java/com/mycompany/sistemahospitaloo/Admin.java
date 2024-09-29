@@ -14,4 +14,8 @@ public class Admin extends Funcionario{
         super(user, senha);
     }
     
+    @Override
+    public  String mensagemSaida() {
+        return "Logout do administrador realizado com sucesso";
+    }
 }

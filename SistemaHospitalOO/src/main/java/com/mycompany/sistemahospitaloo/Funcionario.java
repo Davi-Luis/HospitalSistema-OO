@@ -8,13 +8,15 @@ package com.mycompany.sistemahospitaloo;
  *
  * @author davil
  */
-public class Funcionario extends Usuario{
+public abstract class Funcionario extends Usuario{
     
     public Funcionario(String user, String senha) {
         super(user, senha);
         
     }
 
+    public abstract String mensagemSaida(); 
+    
     // Métodos comuns a todos os funcionários
     public void realizarTarefa() {
         System.out.println("Tarefa a ser pensada.");

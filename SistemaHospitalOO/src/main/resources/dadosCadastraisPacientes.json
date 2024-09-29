@@ -1,9 +1,5 @@
 [
   {
-    "numeroCartaoSUS": "785488899999000",
-    "user": "Eliana Aparecida Carlos Ferraz",
-    "senha": "elianaapferraz",
-    "cpf": "056.628.136-80",
     "numeroCartaoSUS": "111111111111111",
     "user": "taynara",
     "senha": "12123",
@@ -62,5 +58,11 @@
     "user": "pac",
     "senha": "123",
     "cpf": "123.456.789-09"
+  },
+  {
+    "numeroCartaoSUS": "111111111111111",
+    "user": "savio",
+    "senha": "savio123",
+    "cpf": "114.185.566-61"
   }
 ]

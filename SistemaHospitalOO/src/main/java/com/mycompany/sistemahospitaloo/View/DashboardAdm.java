@@ -4,6 +4,9 @@
  */
 package com.mycompany.sistemahospitaloo.View;
 
+import com.mycompany.sistemahospitaloo.Admin;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Taynara Ferraz
@@ -78,6 +81,11 @@ public class DashboardAdm extends javax.swing.JFrame {
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout.png"))); // NOI18N
         jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
         jTextField1.setText("jTextField1");
         jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
@@ -176,6 +184,13 @@ public class DashboardAdm extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        // TODO add your handling code here:
+         Admin qualquer = new Admin("user", "senha");
+        JOptionPane.showMessageDialog(null, qualquer.mensagemSaida());
+        dispose();
+    }//GEN-LAST:event_jLabel4MouseClicked
 
     /**
      * @param args the command line arguments
