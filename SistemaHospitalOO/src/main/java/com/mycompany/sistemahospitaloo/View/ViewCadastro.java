@@ -187,6 +187,14 @@ public class ViewCadastro extends javax.swing.JFrame {
 }
 
 private boolean cadastrarPaciente() {
+    if(jTextField1.getText().isEmpty()){
+        mostrarMensagemErro("Campo de nome vazio. Por favor, tente novamente.");
+        return false;  
+    }
+    if(jPasswordField1.getPassword().length == 0){
+        mostrarMensagemErro("Campo de senha vazio. Por favor, tente novamente.");
+        return false;  
+    }
     // Verifica CPF
     if (!VerificaCPF.verificaCPF(jFormattedTextField1.getText())) {
         mostrarMensagemErro("CPF inválido. Por favor, tente novamente.");
@@ -202,14 +210,7 @@ private boolean cadastrarPaciente() {
         jFormattedTextField2.requestFocus(); // Foca no campo Cartão SUS
         return false; // Sai do método
     }
-    if(jTextField1.getText().isEmpty()){
-        mostrarMensagemErro("Campo de nome vazio. Por favor, tente novamente.");
-        return false;  
-    }
-    if(jPasswordField1.getPassword().length == 0){
-        mostrarMensagemErro("Campo de senha vazio. Por favor, tente novamente.");
-        return false;  
-    }
+    
     //se ambos os campos forem válidos e nenhum vazio, cria o usuário
     user = new Paciente(jTextField1.getText(), new String(jPasswordField1.getPassword()), jFormattedTextField1.getText(), jFormattedTextField2.getText());
 

@@ -280,6 +280,12 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
     }
 
     private boolean gerenciaMedico() {
+        if (jTextField1.getText().isEmpty() || jTextField4.getText().isEmpty() || jTextField2.getText().isEmpty()
+                || jTextField3.getText().isEmpty()) {
+            mostrarMensagemErro("Campo vazio. Por favor, tente novamente.");
+            return false;
+        }
+        
         if (!VerificaCRM.verificaCRM(jTextField3.getText())) {
             mostrarMensagemErro("CRM inválido. Por favor, tente novamente.");
             //jTextField3.setText(""); // Limpa o campo CPF
@@ -288,7 +294,7 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
         }
         return true;
     }
-    
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         if (gerenciaMedico()) {
