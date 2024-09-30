@@ -153,7 +153,6 @@ public class DashboardMedico extends javax.swing.JFrame {
         novo.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 public Medico retornaMedico(String username, String password, String filepath){
-        // Instancia um parser para ler o arquivo JSON
         JSONParser parser = new JSONParser();
 
         try {

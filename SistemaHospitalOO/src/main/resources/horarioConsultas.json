@@ -70,5 +70,21 @@
     "data": "10/10/2024",
     "hora": "8h30",
     "plano": "Amil"
+  },
+  {
+    "paciente": "paciente",
+    "medico": "Savio Freitas",
+    "idMedico": "2.0",
+    "data": "30/09/2024",
+    "hora": "12h",
+    "plano": "Amil"
+  },
+  {
+    "paciente": "paciente",
+    "medico": "Niara",
+    "idMedico": "1",
+    "data": "12/11/2024",
+    "hora": "7h",
+    "plano": "Nenhum "
   }
 ]

@@ -249,7 +249,7 @@ if (selectedRow != -1) {
 
     String filePath = "src/main/resources/planosDeSaude.json";
     try {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();  // Mantém a formatação JSON
+        Gson gson = new GsonBuilder().setPrettyPrinting().create(); 
         FileReader reader = new FileReader(filePath);
         JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
         reader.close();
@@ -257,13 +257,14 @@ if (selectedRow != -1) {
         for (int i = 0; i < jsonArray.size(); i++) {
             JsonObject obj = jsonArray.get(i).getAsJsonObject();
             if (obj.get("nome").getAsString().equals(nomeParaExcluir)) {
-                jsonArray.remove(i);  // Remove o objeto do JSON
-                break;  // Sai do loop após encontrar e remover
+                jsonArray.remove(i);  
+                jTextField1.setText(null);
+                break;  
             }
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(gson.toJson(jsonArray));  // Sobrescreve o arquivo com o conteúdo atualizado
+            writer.write(gson.toJson(jsonArray)); 
         }
         
         JOptionPane.showMessageDialog(null, "Plano de saúde excluído com sucesso.");
@@ -288,6 +289,7 @@ if (selectedRow != -1) {
 
                 Arquivo.adiciona("src/main/resources/planosDeSaude.json", plano);
                 carregaDados(); 
+                jTextField1.setText(null);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Erro ao adicionar o plano de saúde: " + e.getMessage());
                 e.printStackTrace(); 

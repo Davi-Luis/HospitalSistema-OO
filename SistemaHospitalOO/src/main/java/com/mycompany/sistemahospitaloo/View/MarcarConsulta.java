@@ -270,7 +270,7 @@ private boolean verificaConsulta(Consulta c){
 
             if (c.getMedico().equals(medicoConsulta) && c.getData().equals(dataConsulta) && c.getHora().equals(horarioConsulta)) {
                 JOptionPane.showMessageDialog(this, "Já existe uma consulta marcada para esse médico, data e horário.");
-                return false; // Consulta já existe
+                return false;
             }
         }
 
@@ -348,7 +348,7 @@ public static Date removeTimeFromDate(Date date) {
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
 
-        
+        jTextField1.setText("R$200");
         String selectedItem = (String) jComboBox3.getSelectedItem();
         if (selectedItem != null) { 
         if(selectedItem.equals("Nenhum")) {
