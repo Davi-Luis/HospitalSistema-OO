@@ -6,5 +6,9 @@
   {
     "user": "savio",
     "senha": "savio123"
+  },
+  {
+    "user": "paciente",
+    "senha": "123"
   }
 ]

@@ -157,6 +157,11 @@ public class GerenciamentoPlanosDeSaude extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -198,11 +203,11 @@ if (selectedRow != -1) {
     if (novoNome != null && !novoNome.trim().isEmpty()) {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         String nomeAntigo = model.getValueAt(selectedRow, 0).toString();
-        model.setValueAt(novoNome, selectedRow, 0);  // Atualiza a tabela
+        model.setValueAt(novoNome, selectedRow, 0);  
         
         String filePath = "src/main/resources/planosDeSaude.json";
         try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();  // Mantém a formatação JSON
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();  
             FileReader reader = new FileReader(filePath);
             JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
             reader.close();
@@ -210,13 +215,14 @@ if (selectedRow != -1) {
             for (JsonElement element : jsonArray) {
                 JsonObject obj = element.getAsJsonObject();
                 if (obj.get("nome").getAsString().equals(nomeAntigo)) {
-                    obj.addProperty("nome", novoNome);  // Atualiza o JSON com o novo nome
+                    obj.addProperty("nome", novoNome);
+                    jTextField1.setText(null);
                     break;
                 }
             }
             
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-                writer.write(gson.toJson(jsonArray));  // Sobrescreve o arquivo com o conteúdo atualizado
+                writer.write(gson.toJson(jsonArray));  
             }
             
             JOptionPane.showMessageDialog(null, "Plano de saúde atualizado com sucesso.");
@@ -290,6 +296,14 @@ if (selectedRow != -1) {
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int linha = jTable1.getSelectedRow();
+
+        //seta os inputs com o valor contido na linha e coluna selecionada
+        jTextField1.setText(jTable1.getValueAt(linha, 0).toString());
+    }//GEN-LAST:event_jTable1MouseClicked
    
     
     /**

@@ -74,5 +74,12 @@
     "id": "1",
     "user": "teste novo",
     "senha": "123456"
+  },
+  {
+    "especialidade": "pediatra",
+    "numeroCRM": "1235/mg",
+    "id": "1",
+    "user": "medico",
+    "senha": "123"
   }
 ]

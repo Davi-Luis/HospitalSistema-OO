@@ -134,5 +134,9 @@
   {
     "user": "teste novo",
     "senha": "123456"
+  },
+  {
+    "user": "medico",
+    "senha": "123"
   }
 ]
