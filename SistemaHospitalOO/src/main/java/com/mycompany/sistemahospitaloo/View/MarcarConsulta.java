@@ -1,3 +1,5 @@
+//Taynara Carlos FErraz - 202365571C
+//Davi Luís de Faria Rocha - 202365519B
 package com.mycompany.sistemahospitaloo.View;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -33,17 +35,13 @@ public class MarcarConsulta extends javax.swing.JFrame {
 
     private void carregarPlanos() {
         try {
-            // Carregar o arquivo JSON
             String content = new String(Files.readAllBytes(Paths.get("src/main/resources/planosDeSaude.json")));
 
-            // Usar JsonParser para ler o JSON
             JsonElement jsonElement = JsonParser.parseString(content);
             JsonArray jsonArray = jsonElement.getAsJsonArray();
 
-            // Limpar os itens existentes no jComboBox1
             jComboBox3.removeAllItems();
 
-            // Iterar pelo JsonArray e adicionar o campo 'user' ao JComboBox
             for (JsonElement element : jsonArray) {
                 String user = element.getAsJsonObject().get("nome").getAsString();
                 jComboBox3.addItem(user);
@@ -57,17 +55,13 @@ public class MarcarConsulta extends javax.swing.JFrame {
     }
     private void carregarMedicos() {
         try {
-            // Carregar o arquivo JSON
             String content = new String(Files.readAllBytes(Paths.get("src/main/resources/dadosCadastraisMedicos.json")));
 
-            // Usar JsonParser para ler o JSON
             JsonElement jsonElement = JsonParser.parseString(content);
             JsonArray jsonArray = jsonElement.getAsJsonArray();
 
-            // Limpar os itens existentes no jComboBox1
             jComboBox1.removeAllItems();
 
-            // Iterar pelo JsonArray e adicionar o campo 'user' ao JComboBox
             for (JsonElement element : jsonArray) {
                 String user = element.getAsJsonObject().get("user").getAsString();
                 jComboBox1.addItem(user);
@@ -264,21 +258,17 @@ public class MarcarConsulta extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 private boolean verificaConsulta(Consulta c){
     try {
-        // Carregar o arquivo JSON que contém as consultas existentes
         String content = new String(Files.readAllBytes(Paths.get("src/main/resources/horarioConsultas.json")));
         
-        // Usar JsonParser para ler o JSON
         JsonElement jsonElement = JsonParser.parseString(content);
         JsonArray consultasArray = jsonElement.getAsJsonArray();
 
-        // Iterar pelas consultas já marcadas
         for (JsonElement element : consultasArray) {
             JsonObject consultaObj = element.getAsJsonObject();
             String medicoConsulta = consultaObj.get("medico").getAsString();
             String dataConsulta = consultaObj.get("data").getAsString();
             String horarioConsulta = consultaObj.get("hora").getAsString();
 
-            // Verificar se o médico, data e horário coincidem
             if (c.getMedico().equals(medicoConsulta) && c.getData().equals(dataConsulta) && c.getHora().equals(horarioConsulta)) {
                 JOptionPane.showMessageDialog(this, "Já existe uma consulta marcada para esse médico, data e horário.");
                 return false; // Consulta já existe
@@ -289,28 +279,23 @@ private boolean verificaConsulta(Consulta c){
         e.printStackTrace();
     }
     
-    return true; // Consulta não existe, pode prosseguir
+    return true; 
 }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //marcar consulta
-        //fecha a tela em caso de cadastro bem sucedido
+        
         String id=null;
         try {
-            // Carregar o arquivo JSON
             String content = new String(Files.readAllBytes(Paths.get("src/main/resources/dadosCadastraisMedicos.json")));
 
-            // Usar JsonParser para ler o JSON
             JsonElement jsonElement = JsonParser.parseString(content);
             JsonArray jsonArray = jsonElement.getAsJsonArray();
 
-            // Iterar pelo JsonArray e adicionar o campo 'user' ao JComboBox
             for (JsonElement element : jsonArray) {
                 JsonObject jsonObject = element.getAsJsonObject();
         
-        // Verificar se o campo "user" no JSON corresponde ao userName desejado
         if (jsonObject.get("user").getAsString().equals(jComboBox1.getSelectedItem())) {
             id = jsonObject.get("id").getAsString();
-            break; // Interromper o loop após encontrar o id correspondente
+            break; 
         }            }
 
         } catch (JsonSyntaxException e) {
@@ -331,37 +316,31 @@ public static Date removeTimeFromDate(Date date) {
         try {
             return sdf.parse(sdf.format(date));
         } catch (Exception e) {
-            return null; // Caso haja erro, retorna null (não esperado)
+            return null;
         }
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         JCalendar calendar = new JCalendar();
 
-                // Criando um JOptionPane com o JCalendar
                 int option = JOptionPane.showOptionDialog(
                         null, calendar, "Selecione a data",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 
-                // Se o usuário clicar em "OK"
                 if (option == JOptionPane.OK_OPTION) {
                     Date selectedDate = calendar.getDate();
                      Date currentDate = new Date(); // Obtendo a data atual
                          currentDate = removeTimeFromDate(currentDate);
-                    // Verificar se a data escolhida é inferior à data atual
                     if (selectedDate.before(currentDate)) {
                        
-                        // Mostrar mensagem de erro se a data for inferior
                         JOptionPane.showMessageDialog(
                                 null, "Erro: A data selecionada é anterior à data atual.", 
                                 "Data inválida", JOptionPane.ERROR_MESSAGE);
                         
                     } else {
-                    // Formatando a data para exibição
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                     String formattedDate = sdf.format(selectedDate);
 
-                    //Exibir a data na caixa de texto
                         jTextField3.setText(formattedDate);
                     }
 

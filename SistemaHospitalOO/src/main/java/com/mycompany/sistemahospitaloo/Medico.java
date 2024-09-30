@@ -1,5 +1,6 @@
 package com.mycompany.sistemahospitaloo;
-
+//Taynara Carlos FErraz - 202365571C
+//Davi Luís de Faria Rocha - 202365519B
 /**
  *
  * @author davil
@@ -38,10 +39,6 @@ public class Medico extends Funcionario {
         this.numeroCRM = numeroCRM;
     }
 
-    // Método específico para médicos
-    public void realizarConsulta() {
-        System.out.println("Médico realizando consulta.");
-    }
     
     @Override
     public  String mensagemSaida() {

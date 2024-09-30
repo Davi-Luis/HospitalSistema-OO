@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.sistemahospitaloo.View;
-
+//Taynara Carlos FErraz - 202365571C
+//Davi Luís de Faria Rocha - 202365519B
 import com.mycompany.sistemahospitaloo.Medico;
 import com.mycompany.sistemahospitaloo.Usuario;
 
@@ -156,20 +157,15 @@ public Medico retornaMedico(String username, String password, String filepath){
         JSONParser parser = new JSONParser();
 
         try {
-            // Carrega o arquivo JSON
             JSONArray loginsArray = (JSONArray) parser.parse(new FileReader(filepath));
 
-            // Percorre a lista de pacientes
             for (Object loginObj : loginsArray) {
                 JSONObject loginData = (JSONObject) loginObj;
 
-                // Pega os dados do JSON
                 String usuario = (String) loginData.get("user");
                 String senha = (String) loginData.get("senha");
 
-                // Verifica se o username e senha correspondem
                 if (usuario.equals(username) && senha.equals(password)) {
-                    // Cria e retorna o objeto Paciente com todos os dados
                     return new Medico((String) loginData.get("especialidade"), 
                             (String) loginData.get("numeroCRM"), 
                             (String) loginData.get("user"), 
@@ -178,11 +174,9 @@ public Medico retornaMedico(String username, String password, String filepath){
                 }
             }
         } catch (IOException | ParseException e) {
-            // Trata exceções de IO ou parsing
             System.out.println("Erro ao processar o arquivo JSON: " + e.getMessage());
         }
 
-        // Retorna null se o paciente não for encontrado
         return null;
     }
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed

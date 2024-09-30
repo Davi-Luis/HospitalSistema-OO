@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.sistemahospitaloo.View;
-
+//Taynara Carlos FErraz - 202365571C
+//Davi Luís de Faria Rocha - 202365519B
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -290,9 +291,8 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
         
         if (!VerificaCRM.verificaCRM(jTextField3.getText())) {
             mostrarMensagemErro("CRM inválido. Por favor, tente novamente.");
-            //jTextField3.setText(""); // Limpa o campo CPF
-            //jTextField3.requestFocus(); // Foca no campo CPF
-            return false; // Sai do método
+           
+            return false; 
         }   
         return true;
     }
@@ -301,7 +301,6 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
         // TODO add your handling code here:
         
        if(gerenciaMedico()){
-        //fecha a tela em caso de cadastro bem sucedido
         JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         id++;
         user = new Medico(jTextField2.getText(), jTextField3.getText(), jTextField1.getText(), jTextField4.getText(), String.valueOf(id));
@@ -338,11 +337,10 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
                 String especialidadeAntiga = model.getValueAt(selectedRow, 2).toString();
                 String crmAntigo = model.getValueAt(selectedRow, 3).toString();
 
-                // Atualiza o arquivo JSON
                 String filePath = "src/main/resources/dadosCadastraisMedicos.json";
                 String filePathLogin = "src/main/resources/loginMedicos.json";
                 try {
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();  // Mantém a formatação JSON
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();  
                     FileReader reader = new FileReader(filePath);
                     FileReader readerLogin = new FileReader(filePathLogin);
                     JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
@@ -350,17 +348,16 @@ public class GerenciamentoDosMedicos extends javax.swing.JFrame {
                     reader.close();
                     readerLogin.close();
 
-                    // Percorre o JSON procurando pelo nome antigo e atualiza o nome
                     for (JsonElement element : jsonArray) {
                         JsonObject obj = element.getAsJsonObject();
                         if (obj.get("user").getAsString().equals(nomeAntigo) && obj.get("senha").getAsString().equals(senhaAntiga)
                                 && obj.get("especialidade").getAsString().equals(especialidadeAntiga) && obj.get("numeroCRM").getAsString().equals(crmAntigo)) {
-                            obj.addProperty("user", novoNome);  // Atualiza o JSON com o novo nome
+                            obj.addProperty("user", novoNome);  
                             obj.addProperty("senha", novaSenha);
                             obj.addProperty("especialidade", novaEspecialidade);
                             obj.addProperty("numeroCRM", novoCrm);
 
-                            model.setValueAt(novoNome, selectedRow, 0);  // Atualiza a tabela
+                            model.setValueAt(novoNome, selectedRow, 0);  
                             model.setValueAt(novaSenha, selectedRow, 1);
                             model.setValueAt(novaEspecialidade, selectedRow, 2);
                             model.setValueAt(novoCrm, selectedRow, 3);

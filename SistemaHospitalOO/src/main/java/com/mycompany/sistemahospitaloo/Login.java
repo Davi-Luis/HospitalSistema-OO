@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.sistemahospitaloo;
-
+//Taynara Carlos FErraz - 202365571C
+//Davi Luís de Faria Rocha - 202365519B
 /**
  *
  * @author Taynara Ferraz

@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.sistemahospitaloo.View;
-
+//Taynara Carlos FErraz - 202365571C
+//Davi Luís de Faria Rocha - 202365519B
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -199,7 +200,6 @@ if (selectedRow != -1) {
         String nomeAntigo = model.getValueAt(selectedRow, 0).toString();
         model.setValueAt(novoNome, selectedRow, 0);  // Atualiza a tabela
         
-        // Atualiza o arquivo JSON
         String filePath = "src/main/resources/planosDeSaude.json";
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();  // Mantém a formatação JSON
@@ -207,7 +207,6 @@ if (selectedRow != -1) {
             JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
             reader.close();
 
-            // Percorre o JSON procurando pelo nome antigo e atualiza o nome
             for (JsonElement element : jsonArray) {
                 JsonObject obj = element.getAsJsonObject();
                 if (obj.get("nome").getAsString().equals(nomeAntigo)) {
@@ -216,7 +215,6 @@ if (selectedRow != -1) {
                 }
             }
             
-            // Salvar as alterações de volta no arquivo JSON
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
                 writer.write(gson.toJson(jsonArray));  // Sobrescreve o arquivo com o conteúdo atualizado
             }
@@ -241,10 +239,8 @@ if (selectedRow != -1) {
     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
     String nomeParaExcluir = model.getValueAt(selectedRow, 0).toString();  // Obtém o nome da linha a ser excluída
 
-    // Remove a linha da tabela
     model.removeRow(selectedRow);  
 
-    // Atualiza o arquivo JSON
     String filePath = "src/main/resources/planosDeSaude.json";
     try {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();  // Mantém a formatação JSON
@@ -252,7 +248,6 @@ if (selectedRow != -1) {
         JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
         reader.close();
 
-        // Remove o objeto do JSON com o nome correspondente
         for (int i = 0; i < jsonArray.size(); i++) {
             JsonObject obj = jsonArray.get(i).getAsJsonObject();
             if (obj.get("nome").getAsString().equals(nomeParaExcluir)) {
@@ -261,7 +256,6 @@ if (selectedRow != -1) {
             }
         }
 
-        // Salvar as alterações de volta no arquivo JSON
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(gson.toJson(jsonArray));  // Sobrescreve o arquivo com o conteúdo atualizado
         }
@@ -287,10 +281,10 @@ if (selectedRow != -1) {
             PlanoDeSaude plano = new PlanoDeSaude(jTextField1.getText());
 
                 Arquivo.adiciona("src/main/resources/planosDeSaude.json", plano);
-                carregaDados(); // Recarregar a tabela com os dados atualizados
+                carregaDados(); 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Erro ao adicionar o plano de saúde: " + e.getMessage());
-                e.printStackTrace(); // Para mostrar o erro no console
+                e.printStackTrace(); 
             }
             }
         

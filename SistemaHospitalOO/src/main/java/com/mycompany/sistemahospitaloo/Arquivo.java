@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.sistemahospitaloo;
-
+//Taynara Carlos FErraz - 202365571C
+//Davi Luís de Faria Rocha - 202365519B
 /**
  *
  * @author davil
@@ -20,7 +21,6 @@ public class Arquivo {
 
     private int count = 0;
 
-    // Método para criar um novo arquivo, se ele não existir
     public static void criaArquivo(String filePath) {
         File arquivo = new File(filePath);
         try {
@@ -34,7 +34,6 @@ public class Arquivo {
         }
     }
 
-    // Método para ler o conteúdo de um arquivo
     public static String le(String filePath) {
         StringBuilder content = new StringBuilder();
 
@@ -50,12 +49,10 @@ public class Arquivo {
         return content.toString();
     }
 
-    // Método para adicionar conteúdo ao final do arquivo
     public static void adiciona(String filePath, Object content) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         List<Object> existingContent = new ArrayList<>();
 
-        // Tentar ler o conteúdo existente no arquivo
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             Type listType = new TypeToken<List<Object>>(){}.getType();
             existingContent = gson.fromJson(reader, listType);
@@ -68,10 +65,8 @@ public class Arquivo {
             System.out.println("Erro ao ler o arquivo: " + e.getMessage());
         }
 
-        // Adicionar o novo conteúdo ao array existente
         existingContent.add(content);
 
-        // Reescrever o arquivo com o conteúdo atualizado
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             String json = gson.toJson(existingContent);
             writer.write(json);
@@ -81,15 +76,14 @@ public class Arquivo {
     
     }
 
-    // Método para apagar uma linha específica no arquivo
     public static void apagaLinha(String filePath, int linhaParaApagar) {
         StringBuilder novoConteudo = new StringBuilder();
-        int linhaAtual = 1;  // Começar de 1 ao invés de 0
+        int linhaAtual = 1;  
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (linhaAtual != linhaParaApagar) {  // Se não for a linha que queremos apagar, mantemos
+                if (linhaAtual != linhaParaApagar) {  
                     novoConteudo.append(line).append("\n");
                 }
                 linhaAtual++;
@@ -98,7 +92,6 @@ public class Arquivo {
             System.out.println("Erro ao ler o arquivo: " + e.getMessage());
         }
 
-        // Sobrescreve o arquivo com o novo conteúdo
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, false))) {
             writer.write(novoConteudo.toString());
         } catch (IOException e) {

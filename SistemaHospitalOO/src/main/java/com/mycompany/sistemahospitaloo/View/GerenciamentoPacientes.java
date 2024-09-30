@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.sistemahospitaloo.View;
-
+//Taynara Carlos FErraz - 202365571C
+//Davi Luís de Faria Rocha - 202365519B
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -69,7 +70,7 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
     private boolean gerenciaPaciente() {
         if (!VerificaCPF.verificaCPF(jTextField3.getText())) {
             mostrarMensagemErro("CPF inválido. Por favor, tente novamente.");
-            return false; // Sai do método
+            return false; 
         }
         if(!VerificaCartaoSUS.verificaSUS(jTextField2.getText())){
             mostrarMensagemErro("Cartão do SUS inválido. Por favor, tente novamente.");
@@ -282,11 +283,10 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
                 String numParaExcluir = model.getValueAt(selectedRow, 1).toString();
                 String cpfParaExcluir = model.getValueAt(selectedRow, 2).toString();
 
-                // Atualiza o arquivo JSON
                 String filePath = "src/main/resources/dadosCadastraisPacientes.json";
                 String filePathLogin = "src/main/resources/loginPacientes.json";
                 try {
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();  // Mantém a formatação JSON
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();  
                     FileReader reader = new FileReader(filePath);
                     FileReader readerLogin = new FileReader(filePathLogin);
                     JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
@@ -294,21 +294,20 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
                     reader.close();
                     readerLogin.close();
 
-                    // Remove o objeto do JSON com o nome correspondente
                     for (int i = 0; i < jsonArray.size(); i++) {
                         JsonObject obj = jsonArray.get(i).getAsJsonObject();
                         if (obj.get("user").getAsString().equals(nomeParaExcluir) && obj.get("numeroCartaoSUS").getAsString().equals(numParaExcluir)
                                 && obj.get("cpf").getAsString().equals(cpfParaExcluir) ) {
-                            jsonArray.remove(i);  // Remove o objeto do JSON
-                            break;  // Sai do loop após encontrar e remover
+                            jsonArray.remove(i);  
+                            break;  
                         }
                     }
 
                     for (int i = 0; i < jsonArrayLogin.size(); i++) {
                         JsonObject obj1 = jsonArrayLogin.get(i).getAsJsonObject();
                         if (obj1.get("user").getAsString().equals(nomeParaExcluir)) {
-                            jsonArrayLogin.remove(i);  // Remove o objeto do JSON
-                            break;  // Sai do loop após encontrar e remover
+                            jsonArrayLogin.remove(i);  
+                            break;  
                         }
                     }
 
@@ -317,13 +316,12 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
                     jTextField2.setText(null);
                     jTextField3.setText(null);
 
-                    // Salvar as alterações de volta no arquivo JSON
                     try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-                        writer.write(gson.toJson(jsonArray));  // Sobrescreve o arquivo com o conteúdo atualizado
+                        writer.write(gson.toJson(jsonArray));  
                     }
 
                     try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePathLogin))) {
-                        writer.write(gson.toJson(jsonArrayLogin));  // Sobrescreve o arquivo com o conteúdo atualizado
+                        writer.write(gson.toJson(jsonArrayLogin));  
                     }
 
                     JOptionPane.showMessageDialog(null, "Usuário(a) excluído(a) com sucesso.");
@@ -358,11 +356,10 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
                 String numSusAntigo = model.getValueAt(selectedRow, 1).toString();
                 String cpfAntigo = model.getValueAt(selectedRow, 2).toString();
 
-                // Atualiza o arquivo JSON
                 String filePath = "src/main/resources/dadosCadastraisPacientes.json";
                 String filePathLogin = "src/main/resources/loginPacientes.json";
                 try {
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();  // Mantém a formatação JSON
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();  
                     FileReader reader = new FileReader(filePath);
                     FileReader readerLogin = new FileReader(filePathLogin);
                     JsonArray jsonArray = gson.fromJson(reader, JsonArray.class);
@@ -370,17 +367,16 @@ public class GerenciamentoPacientes extends javax.swing.JFrame {
                     reader.close();
                     readerLogin.close();
 
-                    // Percorre o JSON procurando pelo nome antigo e atualiza o nome
                     for (JsonElement element : jsonArray) {
                         JsonObject obj = element.getAsJsonObject();
                         if (obj.get("user").getAsString().equals(nomeAntigo) &&
                                 obj.get("numeroCartaoSUS").getAsString().equals(numSusAntigo) && 
                                 obj.get("cpf").getAsString().equals(cpfAntigo)) {
-                            obj.addProperty("user", novoNome);  // Atualiza o JSON com o novo nome
+                            obj.addProperty("user", novoNome);  
                             obj.addProperty("numeroCartaoSUS", novoNumSus);
                             obj.addProperty("cpf", novoCpf);
 
-                            model.setValueAt(novoNome, selectedRow, 0);  // Atualiza a tabela
+                            model.setValueAt(novoNome, selectedRow, 0);  
                             model.setValueAt(novoNumSus, selectedRow, 1);
                             model.setValueAt(novoCpf, selectedRow, 2);
 

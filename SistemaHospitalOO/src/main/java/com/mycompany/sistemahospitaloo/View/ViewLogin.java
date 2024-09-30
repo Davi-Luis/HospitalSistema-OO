@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.sistemahospitaloo.View;
-
+//Taynara Carlos FErraz - 202365571C
+//Davi Luís de Faria Rocha - 202365519B
 import com.mycompany.sistemahospitaloo.Usuario;
 import com.mycompany.sistemahospitaloo.Paciente;
  import java.io.FileReader;
@@ -191,24 +192,18 @@ public class ViewLogin extends javax.swing.JFrame {
 
         
     public Paciente retornaPaciente(String username, String password, String filepath){
-        // Instancia um parser para ler o arquivo JSON
         JSONParser parser = new JSONParser();
 
         try {
-            // Carrega o arquivo JSON
             JSONArray loginsArray = (JSONArray) parser.parse(new FileReader(filepath));
 
-            // Percorre a lista de pacientes
             for (Object loginObj : loginsArray) {
                 JSONObject loginData = (JSONObject) loginObj;
 
-                // Pega os dados do JSON
                 String usuario = (String) loginData.get("user");
                 String senha = (String) loginData.get("senha");
 
-                // Verifica se o username e senha correspondem
                 if (usuario.equals(username) && senha.equals(password)) {
-                    // Cria e retorna o objeto Paciente com todos os dados
                     return new Paciente(
                             (String) loginData.get("user"),
                             (String) loginData.get("senha"),
@@ -218,39 +213,33 @@ public class ViewLogin extends javax.swing.JFrame {
                 }
             }
         } catch (IOException | ParseException e) {
-            // Trata exceções de IO ou parsing
             System.out.println("Erro ao processar o arquivo JSON: " + e.getMessage());
         }
 
-        // Retorna null se o paciente não for encontrado
         return null;
     }
 
-    // Método para verificar se o login está cadastrado no JSON
     public boolean verificaLogin(String username, String password, String filepath) {
         JSONParser parser = new JSONParser();
 
         try {
-            // Carrega o arquivo JSON
             JSONArray loginsArray = (JSONArray) parser.parse(new FileReader(filepath));
 
-            // Percorre a lista de logins
             for (Object loginObj : loginsArray) {
                 JSONObject loginData = (JSONObject) loginObj;
                 
                 String usuario = (String) loginData.get("user");
                 String senha = (String) loginData.get("senha");
 
-                // Verifica se o usuário e senha digitados correspondem
                 if (usuario.equals(username) && senha.equals(password)) {
-                    return true; // Login bem-sucedido
+                    return true; 
                 }
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
         
-        return false; // Login falhou
+        return false; 
     }
 
     
@@ -270,7 +259,6 @@ public class ViewLogin extends javax.swing.JFrame {
             novo.setVisible(true);
         }
         else if(verificaLogin(jTextField1.getText(), senhaString, "src/main/resources/loginPacientes.json")){
-            //percorre o arquivo de cadastro para obter as demais informações deste paciente para criar um objeto
             
             Paciente p = retornaPaciente(jTextField1.getText(), senhaString, "src/main/resources/dadosCadastraisPacientes.json");
             DashboardPaciente novo = new DashboardPaciente(p);

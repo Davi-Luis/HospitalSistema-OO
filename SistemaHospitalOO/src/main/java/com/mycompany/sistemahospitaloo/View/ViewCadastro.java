@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.sistemahospitaloo.View;
-
+//Taynara Carlos FErraz - 202365571C
+//Davi Luís de Faria Rocha - 202365519B
 import com.google.gson.Gson;
 import com.mycompany.sistemahospitaloo.Arquivo;
 import com.mycompany.sistemahospitaloo.Login;
@@ -195,7 +196,6 @@ private boolean cadastrarPaciente() {
         mostrarMensagemErro("Campo de senha vazio. Por favor, tente novamente.");
         return false;  
     }
-    // Verifica CPF
     if (!VerificaCPF.verificaCPF(jFormattedTextField1.getText())) {
         mostrarMensagemErro("CPF inválido. Por favor, tente novamente.");
         jFormattedTextField1.setText(""); // Limpa o campo CPF
@@ -203,7 +203,6 @@ private boolean cadastrarPaciente() {
         return false; // Sai do método
     }
 
-    // Verifica Cartão SUS
     if (!VerificaCartaoSUS.verificaSUS(jFormattedTextField2.getText())) {
         mostrarMensagemErro("Cartão SUS inválido. Por favor, tente novamente.");
         jFormattedTextField2.setText(""); // Limpa o campo Cartão SUS
@@ -211,10 +210,8 @@ private boolean cadastrarPaciente() {
         return false; // Sai do método
     }
     
-    //se ambos os campos forem válidos e nenhum vazio, cria o usuário
     user = new Paciente(jTextField1.getText(), new String(jPasswordField1.getPassword()), jFormattedTextField1.getText(), jFormattedTextField2.getText());
 
-    // Adiciona os dados ao arquivo
     Login login = new Login(jTextField1.getText(), new String(jPasswordField1.getPassword()));
     Arquivo.adiciona("src/main/resources/loginPacientes.json", login);
     Arquivo.adiciona("src/main/resources/dadosCadastraisPacientes.json", user);
@@ -225,7 +222,6 @@ private boolean cadastrarPaciente() {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         if(cadastrarPaciente()){
-        //fecha a tela em caso de cadastro bem sucedido
         JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         dispose();
         }

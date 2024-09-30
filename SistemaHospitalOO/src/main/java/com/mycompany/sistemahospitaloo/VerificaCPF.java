@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.sistemahospitaloo;
-
+//Taynara Carlos FErraz - 202365571C
+//Davi Luís de Faria Rocha - 202365519B
 /**
  *
  * @author davil
@@ -16,10 +17,8 @@ public class VerificaCPF {
     }
     
     public static boolean verificaCPF(String CPF){
-        //substitui os pontos e barra por vazio
         String CPFnumeros = CPF.replaceAll("[.-]", "");
         
-        //verifica se tem 11 digitos
         if (CPFnumeros.matches("\\d{11}")) {
             //System.out.println("CPF formatado corretamente: " + CPFnumeros);
         } else {
@@ -27,14 +26,12 @@ public class VerificaCPF {
             return false;
         }
         
-        //parser pra inteiro
         int[] digitos = new int[11];
             for (int i = 0; i < CPFnumeros.length(); i++) {
                 digitos[i] = Character.getNumericValue(CPFnumeros.charAt(i));
             }
 
         
-        //se todos os digitos sao iguais
         int primeiro = digitos[0];
         int iguais=1;
          for (int i = 1; i < digitos.length; i++) {
@@ -44,12 +41,11 @@ public class VerificaCPF {
                 }
         }
         if (iguais == 1){
-            return false; //todos os digitos sao iguais
+            return false; 
         }
         int primeiroDigitoVerificador = calcularDigitoVerificador(digitos, 10);
         int segundoDigitoVerificador = calcularDigitoVerificador(digitos, 11);
 
-        // Comparar os dígitos verificadores calculados com os fornecidos
         return digitos[9] == primeiroDigitoVerificador && digitos[10] == segundoDigitoVerificador;
     
     }

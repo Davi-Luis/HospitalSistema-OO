@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.sistemahospitaloo.View;
-
+//Taynara Carlos FErraz - 202365571C
+//Davi Luís de Faria Rocha - 202365519B
 import com.mycompany.sistemahospitaloo.Paciente;
 import com.mycompany.sistemahospitaloo.Usuario;
 import static com.mycompany.sistemahospitaloo.View.DashboardMedico.user;

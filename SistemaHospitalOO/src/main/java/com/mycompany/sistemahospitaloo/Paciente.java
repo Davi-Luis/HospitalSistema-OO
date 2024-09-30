@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.sistemahospitaloo;
-
+//Taynara Carlos FErraz - 202365571C
+//Davi Luís de Faria Rocha - 202365519B
 /**
  *
  * @author davil
@@ -12,7 +13,7 @@ public class Paciente extends Usuario {
     private String numeroCartaoSUS;
 
     public Paciente(String user, String senha, String cpf, String numeroCartaoSUS) {
-        super(user, senha, cpf); //precisa disso ja que nao tem nada?
+        super(user, senha, cpf); 
         this.numeroCartaoSUS = numeroCartaoSUS;
     }
 
@@ -26,9 +27,6 @@ public class Paciente extends Usuario {
         this.numeroCartaoSUS = numeroCartaoSUS;
     }
 
-    // Método específico para pacientes
-    public void marcarConsulta() {
-        System.out.println("Paciente marcando consulta.");
-    }
+    
     
 }
