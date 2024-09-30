@@ -1,6 +1,7 @@
 //Taynara Carlos FErraz - 202365571C
 //Davi Luís de Faria Rocha - 202365519B
 package com.mycompany.sistemahospitaloo.View;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -15,14 +16,18 @@ import com.toedter.calendar.JCalendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
+
 /**
  *
  * @author Taynara Ferraz
  */
 public class MarcarConsulta extends javax.swing.JFrame {
+
     static Paciente paciente;
+
     /**
      * Creates new form MarcarConsulta
+     *
      * @param paciente
      */
     public MarcarConsulta(Paciente paciente) {
@@ -32,41 +37,42 @@ public class MarcarConsulta extends javax.swing.JFrame {
         carregarMedicos();
         carregarPlanos();
     }
-
+    
     private void carregarPlanos() {
         try {
             String content = new String(Files.readAllBytes(Paths.get("src/main/resources/planosDeSaude.json")));
-
+            
             JsonElement jsonElement = JsonParser.parseString(content);
             JsonArray jsonArray = jsonElement.getAsJsonArray();
-
+            
             jComboBox3.removeAllItems();
-
+            
             for (JsonElement element : jsonArray) {
                 String user = element.getAsJsonObject().get("nome").getAsString();
                 jComboBox3.addItem(user);
             }
-
+            
         } catch (JsonSyntaxException e) {
             System.err.println("Erro de sintaxe no JSON: " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     private void carregarMedicos() {
         try {
             String content = new String(Files.readAllBytes(Paths.get("src/main/resources/dadosCadastraisMedicos.json")));
-
+            
             JsonElement jsonElement = JsonParser.parseString(content);
             JsonArray jsonArray = jsonElement.getAsJsonArray();
-
+            
             jComboBox1.removeAllItems();
-
+            
             for (JsonElement element : jsonArray) {
                 String user = element.getAsJsonObject().get("user").getAsString();
                 jComboBox1.addItem(user);
             }
-
+            
         } catch (JsonSyntaxException e) {
             System.err.println("Erro de sintaxe no JSON: " + e.getMessage());
         } catch (Exception e) {
@@ -74,7 +80,6 @@ public class MarcarConsulta extends javax.swing.JFrame {
         }
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -255,62 +260,63 @@ public class MarcarConsulta extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         
     }//GEN-LAST:event_jTextField1ActionPerformed
-private boolean verificaConsulta(Consulta c){
-    try {
-        String content = new String(Files.readAllBytes(Paths.get("src/main/resources/horarioConsultas.json")));
-        
-        JsonElement jsonElement = JsonParser.parseString(content);
-        JsonArray consultasArray = jsonElement.getAsJsonArray();
-
-        for (JsonElement element : consultasArray) {
-            JsonObject consultaObj = element.getAsJsonObject();
-            String medicoConsulta = consultaObj.get("medico").getAsString();
-            String dataConsulta = consultaObj.get("data").getAsString();
-            String horarioConsulta = consultaObj.get("hora").getAsString();
-
-            if (c.getMedico().equals(medicoConsulta) && c.getData().equals(dataConsulta) && c.getHora().equals(horarioConsulta)) {
-                JOptionPane.showMessageDialog(this, "Já existe uma consulta marcada para esse médico, data e horário.");
-                return false;
+    private boolean verificaConsulta(Consulta c) {
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("src/main/resources/horarioConsultas.json")));
+            
+            JsonElement jsonElement = JsonParser.parseString(content);
+            JsonArray consultasArray = jsonElement.getAsJsonArray();
+            
+            for (JsonElement element : consultasArray) {
+                JsonObject consultaObj = element.getAsJsonObject();
+                String medicoConsulta = consultaObj.get("medico").getAsString();
+                String dataConsulta = consultaObj.get("data").getAsString();
+                String horarioConsulta = consultaObj.get("hora").getAsString();
+                
+                if (c.getMedico().equals(medicoConsulta) && c.getData().equals(dataConsulta) && c.getHora().equals(horarioConsulta)) {
+                    JOptionPane.showMessageDialog(this, "Já existe uma consulta marcada para esse médico, data e horário.");
+                    return false;
+                }
             }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-    } catch (Exception e) {
-        e.printStackTrace();
+        
+        return true;        
     }
-    
-    return true; 
-}
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        String id=null;
+        String id = null;
         try {
             String content = new String(Files.readAllBytes(Paths.get("src/main/resources/dadosCadastraisMedicos.json")));
-
+            
             JsonElement jsonElement = JsonParser.parseString(content);
             JsonArray jsonArray = jsonElement.getAsJsonArray();
-
+            
             for (JsonElement element : jsonArray) {
                 JsonObject jsonObject = element.getAsJsonObject();
-        
-        if (jsonObject.get("user").getAsString().equals(jComboBox1.getSelectedItem())) {
-            id = jsonObject.get("id").getAsString();
-            break; 
-        }            }
-
+                
+                if (jsonObject.get("user").getAsString().equals(jComboBox1.getSelectedItem())) {
+                    id = jsonObject.get("id").getAsString();
+                    break;                    
+                }
+            }
+            
         } catch (JsonSyntaxException e) {
             System.err.println("Erro de sintaxe no JSON: " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
         
-        Consulta c = new Consulta(paciente.getUser(), jComboBox1.getSelectedItem().toString(), id,jTextField3.getText(), jComboBox4.getSelectedItem().toString(), jComboBox3.getSelectedItem().toString());
-        if(verificaConsulta(c)){
-        Arquivo.adiciona("src/main/resources/horarioConsultas.json", c);
-
-      JOptionPane.showMessageDialog(this, "Consulta marcada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        Consulta c = new Consulta(paciente.getUser(), jComboBox1.getSelectedItem().toString(), id, jTextField3.getText(), jComboBox4.getSelectedItem().toString(), jComboBox3.getSelectedItem().toString());
+        if (verificaConsulta(c)) {
+            Arquivo.adiciona("src/main/resources/horarioConsultas.json", c);
+            
+            JOptionPane.showMessageDialog(this, "Consulta marcada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-public static Date removeTimeFromDate(Date date) {
+    public static Date removeTimeFromDate(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             return sdf.parse(sdf.format(date));
@@ -321,51 +327,49 @@ public static Date removeTimeFromDate(Date date) {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         JCalendar calendar = new JCalendar();
-
-                int option = JOptionPane.showOptionDialog(
-                        null, calendar, "Selecione a data",
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-
-                if (option == JOptionPane.OK_OPTION) {
-                    Date selectedDate = calendar.getDate();
-                     Date currentDate = new Date(); // Obtendo a data atual
-                         currentDate = removeTimeFromDate(currentDate);
-                    if (selectedDate.before(currentDate)) {
-                       
-                        JOptionPane.showMessageDialog(
-                                null, "Erro: A data selecionada é anterior à data atual.", 
-                                "Data inválida", JOptionPane.ERROR_MESSAGE);
-                        
-                    } else {
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                    String formattedDate = sdf.format(selectedDate);
-
-                        jTextField3.setText(formattedDate);
-                    }
-
-                }
+        
+        int option = JOptionPane.showOptionDialog(
+                null, calendar, "Selecione a data",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+        
+        if (option == JOptionPane.OK_OPTION) {
+            Date selectedDate = calendar.getDate();
+            Date currentDate = new Date(); // Obtendo a data atual
+            currentDate = removeTimeFromDate(currentDate);
+            if (selectedDate.before(currentDate)) {
+                
+                JOptionPane.showMessageDialog(
+                        null, "Erro: A data selecionada é anterior à data atual.",
+                        "Data inválida", JOptionPane.ERROR_MESSAGE);
+                
+            } else {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                String formattedDate = sdf.format(selectedDate);
+                
+                jTextField3.setText(formattedDate);
+            }
+            
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-
-        jTextField1.setText("R$200");
+        
+        jTextField1.setEditable(false);
         String selectedItem = (String) jComboBox3.getSelectedItem();
-        if (selectedItem != null) { 
-        if(selectedItem.equals("Nenhum")) {
-        jTextField1.setText("R$200");
-        } 
-        else if(selectedItem.equals("Unimed")) {
-            jTextField1.setText("R$150");
-        } 
-        else if(selectedItem.equals("Amil")) {
-            jTextField1.setText("R$160");
-        } 
-        else if(selectedItem.equals("SulAmérica")) {
-            jTextField1.setText("R$170");
-        } 
-        else if(selectedItem.equals("Bradesco Saúde")) {
-            jTextField1.setText("R$180");
-        }
+        if (selectedItem != null) {            
+            if (selectedItem.equals("Nenhum")) {
+                jTextField1.setText("R$200");
+            } else if (selectedItem.equals("Unimed")) {
+                jTextField1.setText("R$150");
+            } else if (selectedItem.equals("Amil")) {
+                jTextField1.setText("R$160");
+            } else if (selectedItem.equals("SulAmérica")) {
+                jTextField1.setText("R$170");
+            } else if (selectedItem.equals("Bradesco Saúde")) {
+                jTextField1.setText("R$180");
+            } else {
+                jTextField1.setText("R$190");
+            }
         }
         
     }//GEN-LAST:event_jComboBox3ActionPerformed
